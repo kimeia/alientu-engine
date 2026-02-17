@@ -1,3 +1,3 @@
 # Alientu Engine
 
-Core plugin del Memorial Marco.
+Sistema di gestione delle iscrizioni
