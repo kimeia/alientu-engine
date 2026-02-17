@@ -1,0 +1,91 @@
+{
+  "template_id": "alientu-26",
+  "version": "1.0.0",
+  "prices": {
+    "game": 3.00,
+    "social": 5.00
+  },
+  "event": {
+    "year": "2026",
+    "causale_prefix": "ALIENTU26"
+  },
+  "limits": {
+    "max_teams": null,
+    "max_individuals": null,
+    "max_social": null,
+    "team_min_players": 6,
+    "team_max_players": 12
+  },
+  "texts": {
+    "intro": {
+      "team": {
+        "h2": "Iscrivi la tua squadra al grande gioco",
+        "p": "Per essere valida, la squadra deve rispettare questi requisiti: 6–12 partecipanti, almeno 3 fasce d'età diverse, almeno 2 per fascia."
+      },
+      "individual": {
+        "h2": "Iscriviti come singolo partecipante",
+        "p": "Ti inseriremo noi in una squadra, cercando la combinazione migliore in base a fascia d'età e profilo."
+      },
+      "social": {
+        "h2": "Iscrizione al momento conviviale",
+        "p": "Inserisci i dati del referente e di tutti i partecipanti. La quota è di 5 € a persona."
+      }
+    },
+    "type_labels": {
+      "team": "Iscrizione squadra",
+      "individual": "Iscrizione individuale",
+      "social": "Solo conviviale"
+    },
+    "type_causale": {
+      "team": "SQUADRA",
+      "individual": "INDIVIDUALE",
+      "social": "CONVIVIALE"
+    },
+    "age_bands": {
+      "A": "8–11",
+      "B": "11–17",
+      "C": "17–39",
+      "D": "39+"
+    },
+    "validation_errors": {
+      "ref_nome": "Il nome del referente deve contenere almeno 4 caratteri.",
+      "ref_cognome": "Il cognome del referente deve contenere almeno 3 caratteri.",
+      "ref_email": "Inserisci un indirizzo email valido.",
+      "ref_phone": "Il numero di telefono deve contenere tra 8 e 15 cifre.",
+      "ref_fascia": "Seleziona la tua fascia d'età.",
+      "team_name": "Il nome della squadra deve contenere tra 3 e 20 caratteri.",
+      "team_color": "Seleziona almeno un colore per la squadra.",
+      "num_players": "La squadra deve avere tra 6 e 12 partecipanti.",
+      "composition": "La squadra deve avere almeno 3 fasce d'età diverse con almeno 2 partecipanti per fascia.",
+      "players_incomplete": "Tutti i giocatori devono avere nome, cognome e fascia d'età.",
+      "social_mode": "Indica se partecipi al momento conviviale.",
+      "transport_mode": "Indica la tua situazione trasporti.",
+      "is_scout": "Indica se hai esperienza scout.",
+      "is_sport": "Indica se pratichi sport di squadra.",
+      "consents": "Devi accettare il regolamento e l'informativa privacy.",
+      "generic": "Controlla i campi evidenziati e riprova."
+    }
+  },
+  "emails": {
+    "received": {
+      "subject": "Alientu 2026 — Richiesta ricevuta [{{registration_code}}]",
+      "template": "received.html"
+    },
+    "needs_review": {
+      "subject": "Alientu 2026 — Richiesta da integrare [{{registration_code}}]",
+      "template": "needs_review.html"
+    },
+    "waiting_payment": {
+      "subject": "Alientu 2026 — Istruzioni pagamento [{{registration_code}}]",
+      "template": "waiting_payment.html"
+    },
+    "confirmed": {
+      "subject": "Alientu 2026 — Iscrizione confermata [{{registration_code}}]",
+      "template": "confirmed.html"
+    },
+    "cancelled": {
+      "subject": "Alientu 2026 — Iscrizione annullata [{{registration_code}}]",
+      "template": "cancelled.html"
+    }
+  }
+}
