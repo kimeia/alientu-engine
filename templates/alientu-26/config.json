@@ -15,6 +15,8 @@
   "limits": {
     "team_min_players": 6,
     "team_max_players": 12,
+    "group_min_players": 2,
+    "group_max_players": 5,
     "team_name_min": 3,
     "team_name_max": 20
   },
@@ -28,7 +30,7 @@
   "step1": {
     "intro": {
       "title": "come vuoi partecipare?",
-      "text": "Scegli la modalità di iscrizione più adatta. Puoi iscriverti con una squadra già formata, come singolo (ti inseriremo noi in una squadra), oppure partecipare solo al momento conviviale."
+      "text": "Scegli la modalità di iscrizione più adatta. Puoi iscriverti con una squadra già formata, come singolo, con un piccolo gruppo (2-5) da integrare, oppure partecipare solo al momento conviviale."
     },
     "cards": {
       "team": {
@@ -45,6 +47,13 @@
         "rules": ["singola persona", "richiesta di inserimento in squadra", "assegnazione a cura dello staff"],
         "btn": "iscriviti"
       },
+      "group": {
+        "label": "Form G",
+        "title": "Iscrizione gruppo",
+        "desc": "Iscrivi un piccolo gruppo (2-5 partecipanti) che non ha ancora i requisiti per una squadra completa.",
+        "rules": ["2-5 partecipanti", "nessun vincolo di composizione per fascia", "abbinamento finale a cura dello staff"],
+        "btn": "iscriviti"
+      },
       "social": {
         "label": "Form C",
         "title": "Solo conviviale",
@@ -58,6 +67,7 @@
   "form_intro": {
     "team":       { "h2": "Iscrivi la tua squadra al grande gioco",    "p": "Per essere valida, la squadra deve rispettare questi requisiti: 6–12 partecipanti, almeno 3 fasce d'età diverse, almeno 2 per fascia." },
     "individual": { "h2": "Iscriviti come singolo partecipante",        "p": "Ti inseriremo noi in una squadra, cercando la combinazione migliore in base a fascia d'età e profilo." },
+    "group":      { "h2": "Iscrivi il tuo gruppo",                      "p": "Inserisci da 2 a 5 partecipanti. Non ci sono vincoli di composizione per fasce: lo staff userà il profilo gruppo per completare le squadre." },
     "social":     { "h2": "Iscrizione al momento conviviale",           "p": "Inserisci i dati del referente e di tutti i partecipanti. La quota è di 5 € a persona." }
   },
 

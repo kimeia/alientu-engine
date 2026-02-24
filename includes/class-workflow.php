@@ -116,7 +116,7 @@ class Workflow {
 
         $type = $data['registration_type'];
 
-        if ( ! in_array( $type, [ 'team', 'individual', 'social' ], true ) ) {
+        if ( ! in_array( $type, [ 'team', 'individual', 'group', 'social' ], true ) ) {
             return [ 'success' => false, 'errors' => [ 'Tipo iscrizione non valido.' ] ];
         }
 
@@ -408,7 +408,19 @@ class Workflow {
         // social.mode per 'individual': 'yes_b' = partecipa, 'none' = non partecipa
         // (per 'team': 'all' | 'some' | 'none' — ma attends_social è per partecipante, non per referente)
         $social_mode    = $social['mode'] ?? null;
-        $attends_social = ( $type === 'individual' ) && ( $social_mode === 'yes_b' );
+        $attends_social = ( $type === 'individual' ) && ( $social_mode === 'yes_b' );
+        $ref_in_team = true;
+        if ( $type === 'team' ) {
+            $ref_in_team = ! isset( $ref['in_team'] ) ? true : (bool) $ref['in_team'];
+        }
+        $ref_attends_social = false;
+        if ( $type === 'team' && ! $ref_in_team ) {
+            if ( $social_mode === 'all' ) {
+                $ref_attends_social = true;
+            } elseif ( $social_mode === 'some' ) {
+                $ref_attends_social = ! empty( $social['referente_social'] );
+            }
+        }
 
         // Note cibo collettive (conviviale) — campo comune a tutti i tipi
         $food_notes = sanitize_textarea_field( $social['food_notes'] ?? '' );
@@ -430,7 +442,9 @@ class Workflow {
             'team_color'        => $team_color,
             'players'           => $players,
             'social_guests'     => $social_guests,
-            'attends_social'    => $attends_social,
+            'attends_social'    => $attends_social,
+            'ref_in_team'       => $ref_in_team,
+            'ref_attends_social'=> $ref_attends_social,
             'food_notes'        => $food_notes,
             'donation'          => $donation,
         ];
@@ -476,11 +490,28 @@ class Workflow {
 
         switch ( $type ) {
 
-            case 'team':
-                foreach ( $data['players'] as $p ) {
-                    $rows[] = $this->map_participant( $campaign_id, $event_id, $reg_id, $team_id, $p );
-                }
-                break;
+            case 'team':
+                foreach ( $data['players'] as $p ) {
+                    $rows[] = $this->map_participant( $campaign_id, $event_id, $reg_id, $team_id, $p );
+                }
+                if ( ! empty( $data['ref_attends_social'] ) ) {
+                    $rows[] = $this->map_participant( $campaign_id, $event_id, $reg_id, null, [
+                        'first_name'     => $data['ref_first_name'],
+                        'last_name'      => $data['ref_last_name'],
+                        'email'          => $data['ref_email'],
+                        'phone'          => $data['ref_phone'],
+                        'age_band'       => '',
+                        'attends_social' => true,
+                        'food_notes'     => $data['food_notes'],
+                    ] );
+                }
+                break;
+
+            case 'group':
+                foreach ( $data['players'] as $p ) {
+                    $rows[] = $this->map_participant( $campaign_id, $event_id, $reg_id, null, $p );
+                }
+                break;
 
             case 'individual':
                 $rows[] = $this->map_participant( $campaign_id, $event_id, $reg_id, null, [
@@ -553,14 +584,26 @@ class Workflow {
         $social_count  = 0;
 
         switch ( $type ) {
-            case 'team':
-                $players_count = count( $data['players'] );
-                foreach ( $data['players'] as $p ) {
-                    if ( ! empty( $p['attends_social'] ) ) {
-                        $social_count++;
+            case 'team':
+                $players_count = count( $data['players'] );
+                foreach ( $data['players'] as $p ) {
+                    if ( ! empty( $p['attends_social'] ) ) {
+                        $social_count++;
                     }
                 }
-                break;
+                if ( ! empty( $data['ref_attends_social'] ) ) {
+                    $social_count++;
+                }
+                break;
+
+            case 'group':
+                $players_count = count( $data['players'] );
+                foreach ( $data['players'] as $p ) {
+                    if ( ! empty( $p['attends_social'] ) ) {
+                        $social_count++;
+                    }
+                }
+                break;
 
             case 'individual':
                 $players_count = 1;

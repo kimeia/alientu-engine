@@ -135,14 +135,16 @@ class Team_Repo {
     /**
      * Aggiorna una squadra.
      */
-    public function update( int $id, array $data ): bool {
-        global $wpdb;
-
-        return $wpdb->update(
-            "{$wpdb->prefix}aw_teams",
-            $data,
-            [ 'id' => $id ],
-            $this->get_format( $data ),
+    public function update( int $id, array $data ): bool {
+        global $wpdb;
+
+        $data['updated_at'] = current_time( 'mysql', true );
+
+        return $wpdb->update(
+            "{$wpdb->prefix}aw_teams",
+            $data,
+            [ 'id' => $id ],
+            $this->get_format( $data ),
             [ '%d' ]
         ) !== false;
     }
@@ -195,7 +197,7 @@ class Team_Repo {
     // ─── Helpers privati ─────────────────────────────────────────────────────
 
     private function get_format( array $data ): array {
-        $int_fields = [ 'campaign_id', 'capacity' ];
+        $int_fields = [ 'campaign_id', 'capacity', 'registration_id', 'created_by_staff' ];
 
         $formats = [];
         foreach ( $data as $key => $value ) {

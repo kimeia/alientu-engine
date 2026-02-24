@@ -40,7 +40,7 @@ define( 'AW_PLUGIN_DIR',  plugin_dir_path( __FILE__ ) );
 
 define( 'AW_PLUGIN_URL',  plugin_dir_url( __FILE__ ) );
 
-define( 'AW_DB_VERSION',  '1' );
+define( 'AW_DB_VERSION',  '2' );
 
 
 

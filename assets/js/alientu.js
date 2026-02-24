@@ -55,12 +55,13 @@
 
 
 const CFG = window.alientuConfig || { priceGame: 3, priceSocial: 5, eventYear: '2026' };
+const LIMITS = { team: { min: 6, max: 12 }, group: { min: 2, max: 5 } };
 
 const BANDS = { A: '8–11', B: '11–17', C: '17–39', D: '39+' };
 
-const TYPE_LABELS = { team: 'Iscrizione squadra', individual: 'Iscrizione individuale', social: 'Solo conviviale' };
+const TYPE_LABELS = { team: 'Iscrizione squadra', individual: 'Iscrizione individuale', group: 'Iscrizione gruppo', social: 'Solo conviviale' };
 
-const TYPE_CAUSALE = { team: 'SQUADRA', individual: 'INDIVIDUALE', social: 'CONVIVIALE' };
+const TYPE_CAUSALE = { team: 'SQUADRA', individual: 'INDIVIDUALE', group: 'GRUPPO', social: 'CONVIVIALE' };
 
 
 
@@ -70,8 +71,23 @@ const INTROS = {
 
   individual: { h2: 'Iscriviti come singolo partecipante',   p: 'Ti inseriremo noi in una squadra, cercando la combinazione migliore in base a fascia d\'età e profilo.' },
 
+  group:      { h2: 'Iscrivi il tuo gruppo',                  p: 'Inserisci da 2 a 5 partecipanti. Non ci sono vincoli di composizione per fasce: lo staff userà il profilo gruppo per completare le squadre.' },
+
   social:     { h2: 'Iscrizione al momento conviviale',      p: 'Inserisci i dati del referente e di tutti i partecipanti. La quota è di 5 € a persona.' },
 
+};
+
+const COMPOSITION_META = {
+  team: {
+    title: 'Composizione Squadra',
+    rules: 'Regole di composizione: 6-12 partecipanti, almeno 3 fasce d\'età diverse, e almeno 2 partecipanti per ciascuna fascia presente.',
+    errPlayers: 'inserisci un numero tra 6 e 12'
+  },
+  group: {
+    title: 'Composizione Gruppo',
+    rules: 'Regole gruppo: 2-5 partecipanti, nessun vincolo di composizione per fascia d\'età.',
+    errPlayers: 'inserisci un numero tra 2 e 5'
+  }
 };
 
 
@@ -375,6 +391,7 @@ function goToStep(n) {
 
 
 let currentType = null;
+let activePlayerIndex = -1;
 
 
 
@@ -382,23 +399,15 @@ let currentType = null;
 
 const SECTIONS = {
 
-  // id sezione       A      B      C
-
-  sec_referente:      [true,  true,  true ],
-
-  sec_team_identity:  [true,  false, false],
-
-  sec_composition:    [true,  false, false],
-
-  sec_profile:        [false, true,  false],
-
-  sec_social:         [true,  true,  false],
-
-  sec_social_participants: [false, false, true],
-
-  sec_transport:      [true,  true,  false],
-
-  sec_quotes:         [true,  true,  true ],
+  // id sezione       team   individual group  social
+  sec_referente:      [true,  true,      true,  true ],
+  sec_team_identity:  [true,  false,     false, false],
+  sec_composition:    [true,  false,     true,  false],
+  sec_profile:        [false, true,      true,  false],
+  sec_social:         [true,  true,      true,  false],
+  sec_social_participants: [false, false, false, true],
+  sec_transport:      [true,  true,      true,  false],
+  sec_quotes:         [true,  true,      true,  true ],
 
 };
 
@@ -408,7 +417,7 @@ function activateType(type) {
 
   currentType = type;
 
-  const idx = { team: 0, individual: 1, social: 2 }[type];
+  const idx = { team: 0, individual: 1, group: 2, social: 3 }[type];
 
 
 
@@ -429,6 +438,14 @@ function activateType(type) {
   const el = $id('form_intro');
 
   if (el) el.innerHTML = `<h2>${intro.h2}</h2><p>${intro.p}</p>`;
+
+  const compMeta = COMPOSITION_META[type] || COMPOSITION_META.team;
+  const compTitle = $id('title_composition');
+  if (compTitle) compTitle.textContent = compMeta.title;
+  const compRules = $id('composition_rules');
+  if (compRules) compRules.textContent = compMeta.rules;
+  const errPlayers = $id('err_num_players');
+  if (errPlayers) errPlayers.textContent = compMeta.errPlayers;
 
 
 
@@ -453,12 +470,16 @@ function activateType(type) {
   const tr = $id('title_referente');
 
   if (tr) tr.textContent = type === 'social' ? 'Dati Referente' : type === 'individual' ? 'Dati Personali' : 'Dati Referente';
+  const tp = $id('title_profile');
+  if (tp) tp.textContent = type === 'group' ? 'Profilo Squadra' : 'Profilo Partecipante';
 
 
 
   // fascia età (solo B)
 
   type === 'individual' ? show('field_ref_fascia') : hide('field_ref_fascia');
+  type === 'team' ? show('field_ref_in_team') : hide('field_ref_in_team');
+  type === 'group' ? hide('profile_individual_fields') : show('profile_individual_fields');
 
 
 
@@ -478,21 +499,40 @@ function activateType(type) {
 
     $id('num_quotes')    && ($id('num_quotes').textContent    = 'B5');
 
-  } else if (type === 'team') {
+  } else if (type === 'team' || type === 'group') {
 
     show('social_opt_all'); show('social_opt_some'); hide('social_opt_yes');
+    if (type === 'team') {
+      const refInTeamYes = $id('ref_in_team_yes');
+      if (refInTeamYes) refInTeamYes.checked = true;
+      $id('num_social') && ($id('num_social').textContent = 'A5');
+      $id('num_transport') && ($id('num_transport').textContent = 'A6');
+      $id('num_quotes')    && ($id('num_quotes').textContent    = 'A7');
+      $id('num_profile')   && ($id('num_profile').textContent   = 'B2');
+      $id('num_composition') && ($id('num_composition').textContent = 'A4');
+    } else {
+      $id('num_profile')   && ($id('num_profile').textContent   = 'G2');
+      $id('num_composition') && ($id('num_composition').textContent = 'G3');
+      $id('num_social') && ($id('num_social').textContent = 'G4');
+      $id('num_transport') && ($id('num_transport').textContent = 'G5');
+      $id('num_quotes')    && ($id('num_quotes').textContent    = 'G6');
+    }
 
-    $id('num_social') && ($id('num_social').textContent = 'A5');
-
-    $id('num_transport') && ($id('num_transport').textContent = 'A6');
-
-    $id('num_quotes')    && ($id('num_quotes').textContent    = 'A7');
+    const np = $id('num_players');
+    if (np) {
+      const lim = type === 'team' ? LIMITS.team : LIMITS.group;
+      np.min = String(lim.min);
+      np.max = String(lim.max);
+      np.placeholder = `${lim.min}-${lim.max}`;
+    }
 
   } else {
 
     // C: nessun modale conviviale, solo quote e partecipanti
 
     $id('num_quotes') && ($id('num_quotes').textContent = 'C3');
+    $id('num_profile')   && ($id('num_profile').textContent   = 'B2');
+    $id('num_composition') && ($id('num_composition').textContent = 'A3');
 
   }
 
@@ -516,9 +556,13 @@ function activateType(type) {
 
 
 
-  // Form A: render giocatori default
-
-  if (type === 'team') renderPlayers(6);
+  // Form A: i giocatori compaiono solo dopo selezione numero
+  if (type === 'team' || type === 'group') {
+    const np = $id('num_players');
+    if (np) np.value = '';
+    renderPlayers(0);
+    if (type === 'team') syncReferenteToTeamFirst();
+  }
 
 
 
@@ -581,17 +625,30 @@ function countSocialForQuotes() {
   }
 
   const mode = document.querySelector('input[name="social_mode"]:checked')?.value;
+  const refInTeam = isReferenteInTeam();
 
   if (!mode || mode === 'none') return 0;
 
   if (mode === 'all' || mode === 'yes_b') {
 
-    return currentType === 'team' ? (parseInt($id('num_players')?.value) || 0) : 1;
+    if (currentType === 'team' || currentType === 'group') {
+      const basePlayers = parseInt($id('num_players')?.value) || 0;
+      return basePlayers + (currentType === 'team' && !refInTeam ? 1 : 0);
+    }
+    return 1;
 
   }
 
-  return $all('input[name^="social_players"]:checked').length;
+  const playersSelected = $all('input[name^="social_players"]:checked').length;
+  const referenteSelected = !refInTeam && $id('social_ref')?.checked ? 1 : 0;
+  return playersSelected + referenteSelected;
 
+}
+
+function isReferenteInTeam() {
+  if (currentType !== 'team') return false;
+  const selected = document.querySelector('input[name="ref_in_team"]:checked');
+  return (selected?.value ?? '1') === '1';
 }
 
 
@@ -675,163 +732,201 @@ function syncColorSelects() {
 
 
 function buildPlayerBlock(i) {
-
   const div = document.createElement('div');
-
-  div.className = 'aw-player-block';
-
+  div.className = 'aw-player-block is-collapsed';
   div.dataset.index = i;
+  div.dataset.complete = '0';
 
   div.innerHTML = `
+    <button type="button" class="aw-player-header" onclick="openPlayerBlock(${i})" onkeydown="handlePlayerHeaderKey(event, ${i})" aria-expanded="false">
+      <span class="aw-player-head-left">
+        <span class="aw-player-num">Giocatore ${i+1}</span>
+        <span class="aw-player-summary" id="summary_p${i}">da compilare</span>
+      </span>
+      <span class="aw-player-head-right">
+        <span class="aw-player-status" id="status_p${i}">da compilare</span>
+        <span class="aw-fascia-badge" id="badge_p${i}">-</span>
+        <i class="fa-solid fa-chevron-down aw-player-chevron" id="chev_p${i}"></i>
+      </span>
+    </button>
 
-    <div class="aw-player-header">
-
-      <span class="aw-player-num">Giocatore ${i+1}</span>
-
-      <span class="aw-fascia-badge" id="badge_p${i}">—</span>
-
-    </div>
-
-    <div class="aw-player-body">
-
+    <div class="aw-player-body d-none">
       <div class="row g-2 mb-2">
-
         <div class="col-12 col-sm-6">
-
           <label class="aw-label">Nome <span class="aw-req">*</span></label>
-
           <input type="text" class="form-control aw-input" id="p${i}_nome" name="players[${i}][first_name]" minlength="2" placeholder="nome">
-
         </div>
-
         <div class="col-12 col-sm-6">
-
           <label class="aw-label">Cognome <span class="aw-req">*</span></label>
-
           <input type="text" class="form-control aw-input" id="p${i}_cognome" name="players[${i}][last_name]" minlength="2" placeholder="cognome">
-
         </div>
-
       </div>
 
       <div class="mb-2">
-
-        <label class="aw-label">Fascia d'età <span class="aw-req">*</span></label>
-
+        <label class="aw-label">Fascia d'eta <span class="aw-req">*</span></label>
         <div class="d-flex flex-wrap gap-3 mt-1">
-
           ${['A','B','C','D'].map(b => `
-
             <div class="aw-radio-item">
-
-              <input type="radio" name="players[${i}][age_band]" value="${b}" id="p${i}_band${b}"
-
-                     onchange="onBandChange(${i},'${b}')">
-
+              <input type="radio" name="players[${i}][age_band]" value="${b}" id="p${i}_band${b}" onchange="onBandChange(${i},'${b}')">
               <label for="p${i}_band${b}">${b} <small class="aw-band-hint">(${BANDS[b]})</small></label>
-
             </div>`).join('')}
-
         </div>
-
-        <p class="aw-hint">le fasce hanno un anno di sovrapposizione per maggiore elasticità.</p>
-
+        <p class="aw-hint">le fasce hanno un anno di sovrapposizione per maggiore elasticita.</p>
       </div>
 
       <div class="mb-2">
-
         <button type="button" class="aw-btn-contact-toggle" id="btn_ct_${i}" onclick="toggleContact(${i})">
-
           <i class="fa-solid fa-plus"></i> aggiungi contatti (facoltativo)
-
         </button>
-
       </div>
 
       <div id="contact_fields_${i}" class="d-none">
-
         <div class="row g-2 mb-1">
-
           <div class="col-12 col-sm-6">
-
             <label class="aw-label">Email <span class="aw-opt">facoltativa</span></label>
-
             <input type="email" class="form-control aw-input" id="p${i}_email" name="players[${i}][email]" placeholder="email@esempio.it">
-
           </div>
-
           <div class="col-12 col-sm-6">
-
             <label class="aw-label">Telefono <span class="aw-opt">facoltativo</span></label>
-
             <input type="tel" class="form-control aw-input" id="p${i}_tel" name="players[${i}][phone]" placeholder="+39 333 0000000">
-
           </div>
-
         </div>
-
         <p class="aw-contact-note">email e telefono sono facoltativi. se forniti, potranno essere usati per comunicazioni legate all'evento.</p>
-
       </div>
-
     </div>`;
 
-  return div;
+  const refresh = () => refreshPlayerBlockState(i, true);
+  $id(`p${i}_nome`)?.addEventListener('input', refresh);
+  $id(`p${i}_cognome`)?.addEventListener('input', refresh);
+  $id(`p${i}_email`)?.addEventListener('input', () => updateSocialList());
+  $id(`p${i}_tel`)?.addEventListener('input', () => updateSocialList());
 
+  return div;
 }
 
-
+function handlePlayerHeaderKey(e, i) {
+  if (e.key === 'Enter' || e.key === ' ') {
+    e.preventDefault();
+    openPlayerBlock(i);
+  }
+}
 
 function toggleContact(i) {
-
   const f = $id(`contact_fields_${i}`);
-
   const b = $id(`btn_ct_${i}`);
-
   const open = f.classList.contains('d-none');
-
   f.classList.toggle('d-none', !open);
-
   b.classList.toggle('open', open);
-
   b.innerHTML = open
-
     ? '<i class="fa-solid fa-minus"></i> nascondi contatti'
-
     : '<i class="fa-solid fa-plus"></i> aggiungi contatti (facoltativo)';
-
 }
 
+function isPlayerComplete(i) {
+  const nome = $id(`p${i}_nome`)?.value || '';
+  const cognome = $id(`p${i}_cognome`)?.value || '';
+  const band = document.querySelector(`input[name="players[${i}][age_band]"]:checked`)?.value || '';
+  return validateText(nome, 2) && validateText(cognome, 2) && ['A','B','C','D'].includes(band);
+}
 
+function playerSummary(i) {
+  const nome = ($id(`p${i}_nome`)?.value || '').trim();
+  const cognome = ($id(`p${i}_cognome`)?.value || '').trim();
+  const band = document.querySelector(`input[name="players[${i}][age_band]"]:checked`)?.value || '';
+  if (!nome && !cognome && !band) return 'da compilare';
+  const full = `${nome} ${cognome}`.trim() || `Giocatore ${i + 1}`;
+  const bandLabel = band ? `Fascia ${band}` : 'Fascia -';
+  return `${full} - ${bandLabel}`;
+}
+
+function findNextIncompletePlayer(startIdx) {
+  const blocks = $id('players_container')?.querySelectorAll('.aw-player-block') || [];
+  for (let i = startIdx + 1; i < blocks.length; i++) {
+    if (!isPlayerComplete(i)) return i;
+  }
+  return -1;
+}
+
+function openPlayerBlock(i) {
+  const blocks = $id('players_container')?.querySelectorAll('.aw-player-block') || [];
+  if (!blocks.length || i < 0 || i >= blocks.length) return;
+
+  blocks.forEach((block, idx) => {
+    const collapsed = idx !== i;
+    block.classList.toggle('is-collapsed', collapsed);
+    block.querySelector('.aw-player-body')?.classList.toggle('d-none', collapsed);
+    block.querySelector('.aw-player-header')?.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+  });
+
+  activePlayerIndex = i;
+}
+
+function refreshPlayerBlockState(i, autoAdvance = false) {
+  const block = $id('players_container')?.querySelector(`.aw-player-block[data-index="${i}"]`);
+  if (!block) return;
+
+  const complete = isPlayerComplete(i);
+  const wasComplete = block.dataset.complete === '1';
+  block.dataset.complete = complete ? '1' : '0';
+  block.classList.toggle('is-ok', complete);
+
+  const band = document.querySelector(`input[name="players[${i}][age_band]"]:checked`)?.value || '';
+  const badge = $id(`badge_p${i}`);
+  if (badge) {
+    badge.textContent = band ? `Fascia ${band} (${BANDS[band]})` : '-';
+    badge.className = band ? `aw-fascia-badge band-${band}` : 'aw-fascia-badge';
+  }
+
+  const status = $id(`status_p${i}`);
+  if (status) {
+    status.textContent = complete ? 'OK' : 'da compilare';
+    status.classList.toggle('ok', complete);
+  }
+
+  const summary = $id(`summary_p${i}`);
+  if (summary) summary.textContent = playerSummary(i);
+
+  if (autoAdvance && complete && !wasComplete) {
+    const next = findNextIncompletePlayer(i);
+    if (next >= 0) openPlayerBlock(next);
+  }
+
+  if (autoAdvance && !complete && wasComplete) {
+    openPlayerBlock(i);
+  }
+}
 
 function onBandChange(i, band) {
-
   const badge = $id(`badge_p${i}`);
-
   if (badge) { badge.textContent = `Fascia ${band} (${BANDS[band]})`; badge.className = `aw-fascia-badge band-${band}`; }
-
+  refreshPlayerBlockState(i, true);
   validateComposition(); updateSocialList(); updateQuotes();
-
 }
-
-
 
 function renderPlayers(count) {
-
   const container = $id('players_container');
-
   if (!container) return;
 
-  while (container.children.length > count) container.removeChild(container.lastChild);
+  if (!count || count < 1) {
+    container.innerHTML = '';
+    activePlayerIndex = -1;
+    $id('validation_panel')?.classList.add('d-none');
+    updateSocialList();
+    updateQuotes();
+    return;
+  }
 
+  while (container.children.length > count) container.removeChild(container.lastChild);
   while (container.children.length < count) container.appendChild(buildPlayerBlock(container.children.length));
 
+  for (let i = 0; i < count; i++) refreshPlayerBlockState(i, false);
+  syncReferenteToTeamFirst();
+
+  const next = findNextIncompletePlayer(-1);
+  openPlayerBlock(next >= 0 ? next : 0);
+
   updateSocialList(); updateQuotes();
-
 }
-
-
-
 /* ════ 8. FORM A — VALIDAZIONE COMPOSIZIONE ════════════════════ */
 
 
@@ -845,6 +940,11 @@ function validateComposition() {
   const list   = $id('validation_list');
 
   if (!blocks.length || !panel) return false;
+
+  if (currentType === 'group') {
+    panel.classList.add('d-none');
+    return true;
+  }
 
 
 
@@ -917,10 +1017,23 @@ function updateSocialList() {
     list?.classList.remove('d-none');
 
     const blocks = $id('players_container')?.querySelectorAll('.aw-player-block') || [];
+    const checkedPlayers = new Set(Array.from($all('input[name^="social_players"]:checked')).map(el => el.id));
+    const checkedReferente = $id('social_ref')?.checked;
+    const refInTeam = isReferenteInTeam();
 
     if (list) {
 
       list.innerHTML = '<p class="aw-hint mb-2">seleziona chi si ferma al conviviale:</p>';
+
+      if (currentType === 'team' && !refInTeam) {
+        const refLbl = document.createElement('label');
+        refLbl.className = 'aw-check-item mb-1';
+        refLbl.innerHTML = `<input type="checkbox" name="social_ref" value="1" id="social_ref" onchange="updateQuotes()"><span>Referente (${($id('ref_nome')?.value || '').trim()} ${($id('ref_cognome')?.value || '').trim()})</span>`;
+        list.appendChild(refLbl);
+        if (checkedReferente) {
+          $id('social_ref').checked = true;
+        }
+      }
 
       blocks.forEach((_, i) => {
 
@@ -935,6 +1048,9 @@ function updateSocialList() {
         lbl.innerHTML = `<input type="checkbox" name="social_players[${i}]" value="1" id="social_p${i}" onchange="updateQuotes()"><span>${nome} ${cognome}</span>`;
 
         list.appendChild(lbl);
+        if (checkedPlayers.has(`social_p${i}`)) {
+          $id(`social_p${i}`).checked = true;
+        }
 
       });
 
@@ -1129,6 +1245,13 @@ function initSocialParticipants() {
 
 
 function syncReferenteToFirst() {
+  syncReferenteToTeamFirst();
+
+  if (currentType === 'team') {
+    updateSocialList();
+    updateQuotes();
+    return;
+  }
 
   if (currentType !== 'social') return;
 
@@ -1148,6 +1271,21 @@ function syncReferenteToFirst() {
 
   if (sp0tel)     sp0tel.value     = $id('ref_tel')?.value     || '';
 
+}
+
+function syncReferenteToTeamFirst() {
+  if (currentType !== 'team') return;
+  if (!isReferenteInTeam()) return;
+
+  const p0nome = $id('p0_nome');
+  const p0cognome = $id('p0_cognome');
+  if (!p0nome || !p0cognome) return;
+
+  p0nome.value = $id('ref_nome')?.value || '';
+  p0cognome.value = $id('ref_cognome')?.value || '';
+  refreshPlayerBlockState(0, false);
+  updateSocialList();
+  updateQuotes();
 }
 
 
@@ -1220,11 +1358,11 @@ function collectFormData() {
 
   // giocatori (solo A)
 
-  const nPlayers = type === 'team' ? (parseInt($id('num_players')?.value) || 0) : type === 'individual' ? 1 : 0;
+  const nPlayers = (type === 'team' || type === 'group') ? (parseInt($id('num_players')?.value) || 0) : type === 'individual' ? 1 : 0;
 
   const players  = [];
 
-  if (type === 'team') {
+  if (type === 'team' || type === 'group') {
 
     for (let i = 0; i < nPlayers; i++) {
 
@@ -1305,6 +1443,7 @@ function collectFormData() {
       email:      $id('ref_email')?.value.trim(),
 
       phone:      $id('ref_tel')?.value.trim(),
+      in_team:    type === 'team' ? isReferenteInTeam() : null,
 
       fascia:     document.querySelector('input[name="ref_fascia"]:checked')?.value || null,
 
@@ -1332,13 +1471,13 @@ function collectFormData() {
 
     },
 
-    profile: type !== 'individual' ? null : {
+    profile: (type !== 'individual' && type !== 'group') ? null : {
 
-      is_scout:      document.querySelector('input[name="is_scout"]:checked')?.value || null,
+      is_scout:      type === 'group' ? null : (document.querySelector('input[name="is_scout"]:checked')?.value || null),
 
-      is_sport:      document.querySelector('input[name="is_sport"]:checked')?.value || null,
+      is_sport:      type === 'group' ? null : (document.querySelector('input[name="is_sport"]:checked')?.value || null),
 
-      sport_desc:    $id('sport_desc')?.value.trim()     || null,
+      sport_desc:    type === 'group' ? null : ($id('sport_desc')?.value.trim() || null),
 
       profile_notes: $id('profile_notes')?.value.trim()  || null,
 
@@ -1350,7 +1489,12 @@ function collectFormData() {
 
     social_participants: socialParticipants,
 
-    social: { mode: socialMode, count: nSocial, food_notes: $id('food_notes')?.value.trim() || null },
+    social: {
+      mode: socialMode,
+      count: nSocial,
+      referente_social: type === 'team' && !isReferenteInTeam() ? !!$id('social_ref')?.checked : null,
+      food_notes: $id('food_notes')?.value.trim() || null
+    },
 
     transport: type === 'social' ? null : {
 
@@ -1437,6 +1581,11 @@ function validateForm() {
 
 
   if (type === 'team') {
+    if (!document.querySelector('input[name="ref_in_team"]:checked')) {
+      showError('err_ref_in_team', true); ok = false;
+    } else {
+      showError('err_ref_in_team', false);
+    }
 
     req('color_1',   'err_color_1',   v => !!v);
 
@@ -1452,6 +1601,13 @@ function validateForm() {
 
     if (!validateComposition()) ok = false;
 
+  }
+
+  if (type === 'group') {
+    const np = parseInt($id('num_players')?.value);
+    if (!np || np < LIMITS.group.min || np > LIMITS.group.max) { setError('num_players',true); showError('err_num_players',true); ok=false; }
+    else { setError('num_players',false); showError('err_num_players',false); }
+    if (!validateComposition()) ok = false;
   }
 
 
@@ -1476,7 +1632,7 @@ function validateForm() {
 
 
 
-  if (type === 'team' || type === 'individual') {
+  if (type === 'team' || type === 'individual' || type === 'group') {
 
     if (!document.querySelector('input[name="social_mode"]:checked'))
 
@@ -1558,6 +1714,8 @@ function buildReview() {
 
     rvField('Telefono', data.referente.phone)       +
 
+    (type === 'team' ? rvField('Referente nel gruppo', data.referente.in_team ? 'sì' : 'no') : '') +
+
     (data.referente.fascia ? rvField('Fascia', `${data.referente.fascia} (${BANDS[data.referente.fascia]})`) : '');
 
 
@@ -1586,7 +1744,7 @@ function buildReview() {
 
   // giocatori
 
-  if (type === 'team' && data.players.length) {
+  if ((type === 'team' || type === 'group') && data.players.length) {
 
     show('rv_sec_players');
 
@@ -1616,19 +1774,16 @@ function buildReview() {
 
   // profilo B
 
-  if (type === 'individual' && data.profile) {
+  if ((type === 'individual' || type === 'group') && data.profile) {
 
     show('rv_sec_profile');
 
     $id('rv_profile').innerHTML =
 
-      rvField('Scout',     data.profile.is_scout === 'si' ? 'sì' : 'no') +
-
-      rvField('Sport',     data.profile.is_sport === 'si' ? 'sì' : 'no') +
-
-      rvField('Dettaglio sport', data.profile.sport_desc) +
-
-      rvField('Note',      data.profile.profile_notes) +
+      (type === 'individual' ? rvField('Scout',     data.profile.is_scout === 'si' ? 'sì' : 'no') : '') +
+      (type === 'individual' ? rvField('Sport',     data.profile.is_sport === 'si' ? 'sì' : 'no') : '') +
+      (type === 'individual' ? rvField('Dettaglio sport', data.profile.sport_desc) : '') +
+      rvField(type === 'group' ? 'Note gruppo' : 'Note', data.profile.profile_notes) +
 
       rvField('Preferenze squadra', data.profile.team_pref);
 
@@ -1638,7 +1793,7 @@ function buildReview() {
 
   // conviviale + trasporti
 
-  const hasSocial = type === 'team' || type === 'individual';
+  const hasSocial = type === 'team' || type === 'individual' || type === 'group';
 
   if (hasSocial) {
 
@@ -1883,10 +2038,25 @@ document.addEventListener('DOMContentLoaded', function () {
   $id('num_players')?.addEventListener('input', function () {
 
     const v = parseInt(this.value);
+    const lim = currentType === 'group' ? LIMITS.group : LIMITS.team;
 
-    if (v >= 6 && v <= 12) { renderPlayers(v); setError('num_players',false); showError('err_num_players',false); }
+    if (v >= lim.min && v <= lim.max) {
+      renderPlayers(v);
+      validateComposition();
+      setError('num_players',false);
+      showError('err_num_players',false);
+    } else {
+      renderPlayers(0);
+    }
 
   });
+
+  $all('input[name="ref_in_team"]').forEach(r => r.addEventListener('change', function () {
+    showError('err_ref_in_team', false);
+    syncReferenteToTeamFirst();
+    updateSocialList();
+    updateQuotes();
+  }));
 
 
 
@@ -1973,3 +2143,4 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 });
+

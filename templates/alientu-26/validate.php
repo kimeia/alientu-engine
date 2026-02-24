@@ -24,7 +24,7 @@ class AW_Validator_Alientu_26 {
         $errors = [];
         $type   = $payload['_meta']['form'] ?? '';
 
-        if ( ! in_array( $type, [ 'team', 'individual', 'social' ], true ) ) {
+        if ( ! in_array( $type, [ 'team', 'individual', 'group', 'social' ], true ) ) {
             $errors[] = 'Tipo di iscrizione non valido.';
             return $errors;
         }
@@ -60,9 +60,13 @@ class AW_Validator_Alientu_26 {
                 $errors = array_merge( $errors, $this->validate_team( $payload ) );
                 break;
 
-            case 'individual':
-                $errors = array_merge( $errors, $this->validate_individual( $payload ) );
-                break;
+            case 'individual':
+                $errors = array_merge( $errors, $this->validate_individual( $payload ) );
+                break;
+
+            case 'group':
+                $errors = array_merge( $errors, $this->validate_group( $payload ) );
+                break;
 
             case 'social':
                 $errors = array_merge( $errors, $this->validate_social( $payload ) );
@@ -74,14 +78,20 @@ class AW_Validator_Alientu_26 {
 
     // ─── Validazione per tipo TEAM ───────────────────────────────────────────
 
-    private function validate_team( array $payload ): array {
-        $errors = [];
-        $team   = $payload['team'] ?? [];
-
-        // Nome squadra
-        if ( ! $this->validate_text( $team['name'] ?? '', 3, 20 ) ) {
-            $errors[] = 'Il nome della squadra deve contenere tra 3 e 20 caratteri.';
-        }
+    private function validate_team( array $payload ): array {
+        $errors = [];
+        $team   = $payload['team'] ?? [];
+        $ref    = $payload['referente'] ?? [];
+
+        // Referente nel gruppo (campo obbligatorio per team)
+        if ( ! array_key_exists( 'in_team', $ref ) || ! in_array( $ref['in_team'], [ true, false, 1, 0, '1', '0' ], true ) ) {
+            $errors[] = 'Indica se il referente fa parte del gruppo giocatori.';
+        }
+
+        // Nome squadra
+        if ( ! $this->validate_text( $team['name'] ?? '', 3, 20 ) ) {
+            $errors[] = 'Il nome della squadra deve contenere tra 3 e 20 caratteri.';
+        }
 
         // Almeno un colore selezionato
         if ( empty( $team['color_pref_1'] ) && empty( $team['color_custom'] ) ) {
@@ -163,7 +173,7 @@ class AW_Validator_Alientu_26 {
 
     // ─── Validazione per tipo INDIVIDUAL ──────────────────────────────────────
 
-    private function validate_individual( array $payload ): array {
+    private function validate_individual( array $payload ): array {
         $errors = [];
         $ref    = $payload['referente'] ?? [];
 
@@ -203,7 +213,51 @@ class AW_Validator_Alientu_26 {
         }
 
         return $errors;
-    }
+    }
+
+    private function validate_group( array $payload ): array {
+        $errors = [];
+        $players = $payload['players'] ?? [];
+        $count = count( $players );
+
+        if ( $count < 2 || $count > 5 ) {
+            $errors[] = 'Il gruppo deve avere tra 2 e 5 partecipanti.';
+        }
+
+        foreach ( $players as $i => $p ) {
+            if ( ! $this->validate_text( $p['first_name'] ?? '', 2 ) ) {
+                $errors[] = sprintf( 'Partecipante %d: nome mancante o troppo corto.', $i + 1 );
+            }
+            if ( ! $this->validate_text( $p['last_name'] ?? '', 2 ) ) {
+                $errors[] = sprintf( 'Partecipante %d: cognome mancante o troppo corto.', $i + 1 );
+            }
+            if ( empty( $p['age_band'] ) || ! in_array( $p['age_band'], [ 'A', 'B', 'C', 'D' ], true ) ) {
+                $errors[] = sprintf( 'Partecipante %d: seleziona la fascia d\'età.', $i + 1 );
+            }
+        }
+
+        $social_mode = $payload['social']['mode'] ?? null;
+        if ( empty( $social_mode ) ) {
+            $errors[] = 'Indica se partecipate al momento conviviale.';
+        }
+
+        $transport = $payload['transport'] ?? [];
+        if ( empty( $transport['mode'] ) ) {
+            $errors[] = 'Indica la vostra situazione trasporti.';
+        } elseif ( $transport['mode'] === 'seek' || $transport['mode'] === 'offer' ) {
+            if ( ! $this->validate_text( $transport['location'] ?? '', 2 ) ) {
+                $errors[] = 'Indica il luogo di partenza per i trasporti.';
+            }
+            if ( $transport['mode'] === 'seek' && ( empty( $transport['seats_needed'] ) || (int) $transport['seats_needed'] < 1 ) ) {
+                $errors[] = 'Indica quanti posti vi servono.';
+            }
+            if ( $transport['mode'] === 'offer' && ( empty( $transport['seats_offered'] ) || (int) $transport['seats_offered'] < 1 ) ) {
+                $errors[] = 'Indica quanti posti potete offrire.';
+            }
+        }
+
+        return $errors;
+    }
 
     // ─── Validazione per tipo SOCIAL ──────────────────────────────────────────
 

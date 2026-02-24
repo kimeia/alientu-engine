@@ -19,6 +19,7 @@ class Campaign {
 
     public function __construct() {
         add_action( 'init', [ $this, 'register_cpt' ] );
+        add_action( 'admin_menu', [ $this, 'remove_add_new_submenu' ], 99 );
         add_shortcode( 'aw_campaign_form', [ $this, 'shortcode_handler' ] );
     }
 
@@ -40,7 +41,7 @@ class Campaign {
             'search_items'       => 'Cerca Campagne',
             'not_found'          => 'Nessuna campagna trovata',
             'not_found_in_trash' => 'Nessuna campagna nel cestino',
-            'menu_name'          => 'Alientu',
+            'menu_name'          => 'Campagne',
         ];
 
         $args = [
@@ -63,6 +64,14 @@ class Campaign {
         // Meta box per configurazione campagna (Sprint 2: UI completa)
         add_action( 'add_meta_boxes', [ __CLASS__, 'add_meta_boxes' ] );
         add_action( 'save_post_aw_campaign', [ __CLASS__, 'save_meta_boxes' ], 10, 2 );
+    }
+
+    /**
+     * Nasconde la voce di menu "Aggiungi Nuova" dal sidebar.
+     * La creazione resta disponibile dalla vista "Lista campagne".
+     */
+    public function remove_add_new_submenu(): void {
+        remove_submenu_page( 'edit.php?post_type=aw_campaign', 'post-new.php?post_type=aw_campaign' );
     }
 
     /**
@@ -283,8 +292,6 @@ class Campaign {
      * Carica il template HTML dal filesystem del template.
      */
     private function render_form( object $campaign, object $config ): string {
-        error_log('CONFIG: ' . print_r($config, true));
-        error_log('step1.intro.title: ' . ($config->step1->intro->title ?? 'NULL'));
         // Scorciatoie leggibili
         $s   = $config->sections;
         $s1  = $config->step1;
@@ -305,7 +312,7 @@ class Campaign {
 
         <!-- STEP INDICATOR -->
         <nav class="aw-steps" aria-label="Avanzamento iscrizione">
-            <div class="aw-step active" data-step="1"><div class="aw-step-dot">1</div><span><?php $t( $st->step1 ); ?></span></div>
+            <div class="aw-step active" data-step="1"><div class="aw-step-dot">1</div><span><?php echo $t( $st->step1 ); ?></span></div>
             <div class="aw-step-connector" data-after="1"></div>
             <div class="aw-step" data-step="2"><div class="aw-step-dot">2</div><span><?php echo $t( $st->step2 ); ?></span></div>
             <div class="aw-step-connector" data-after="2"></div>
@@ -330,12 +337,12 @@ class Campaign {
             </div>
             <div class="row g-3">
                 <?php
-                $icons = [ 'team' => 'fa-shield-halved', 'individual' => 'fa-user-plus', 'social' => 'fa-utensils' ];
-                foreach ( [ 'team', 'individual', 'social' ] as $type ) :
+                $icons = [ 'team' => 'fa-shield-halved', 'individual' => 'fa-user-plus', 'group' => 'fa-people-group', 'social' => 'fa-utensils' ];
+                foreach ( [ 'team', 'individual', 'group', 'social' ] as $type ) :
                     $card = $s1->cards->{$type};
                     $icon = $icons[ $type ];
                 ?>
-                <div class="col-12 col-md-4">
+                <div class="col-12 col-md-3">
                     <div class="aw-type-card h-100" data-type="<?php echo esc_attr( $type ); ?>">
                         <i class="fa-solid <?php echo esc_attr( $icon ); ?> aw-card-icon"></i>
                         <div class="aw-card-label"><?php echo $t( $card->label ); ?></div>
@@ -398,6 +405,24 @@ class Campaign {
                                 autocomplete="tel" inputmode="tel" pattern="^\+?[0-9\s]{8,20}$"
                                 required aria-required="true" aria-describedby="err_ref_tel">
                             <div class="aw-field-error" id="err_ref_tel" role="alert" aria-live="polite"><?php echo $t( $f->tel->error ); ?></div>
+                        </div>
+
+                        <!-- Referente nel gruppo giocatori — solo Form A -->
+                        <div class="col-12 d-none" id="field_ref_in_team">
+                            <fieldset class="aw-fieldset">
+                                <legend class="aw-label mb-0">Il referente fa parte del gruppo giocatori? <span class="aw-req">*</span></legend>
+                                <div class="d-flex flex-wrap gap-3 mt-1" role="radiogroup" aria-describedby="err_ref_in_team">
+                                    <div class="aw-radio-item">
+                                        <input type="radio" name="ref_in_team" value="1" id="ref_in_team_yes" checked>
+                                        <label for="ref_in_team_yes">sì</label>
+                                    </div>
+                                    <div class="aw-radio-item">
+                                        <input type="radio" name="ref_in_team" value="0" id="ref_in_team_no">
+                                        <label for="ref_in_team_no">no</label>
+                                    </div>
+                                </div>
+                                <div class="aw-field-error" id="err_ref_in_team" role="alert" aria-live="polite">seleziona un'opzione</div>
+                            </fieldset>
                         </div>
 
                         <!-- Fascia età — solo Form B -->
@@ -528,10 +553,10 @@ class Campaign {
             <?php $comp = $s->composition; ?>
             <div class="aw-form-section d-none" id="sec_composition">
                 <div class="aw-section-header">
-                    <span class="aw-sec-num">A3</span><h3><?php echo $t( $comp->title ); ?></h3>
+                    <span class="aw-sec-num" id="num_composition">A3</span><h3 id="title_composition"><?php echo $t( $comp->title ); ?></h3>
                 </div>
                 <div class="aw-section-body">
-                    <div class="aw-rules-box mb-3"><?php echo $t( $comp->rules_box ); ?></div>
+                    <div class="aw-rules-box mb-3" id="composition_rules"><?php echo $t( $comp->rules_box ); ?></div>
                     <div class="row g-3">
                         <?php $np = $comp->fields->num_players; ?>
                         <div class="col-6 col-sm-3">
@@ -555,10 +580,12 @@ class Campaign {
             <?php $prof = $s->profile; $pf = $prof->fields; ?>
             <div class="aw-form-section d-none" id="sec_profile">
                 <div class="aw-section-header">
-                    <span class="aw-sec-num">B2</span><h3><?php echo $t( $prof->title ); ?></h3>
+                    <span class="aw-sec-num" id="num_profile">B2</span><h3 id="title_profile"><?php echo $t( $prof->title ); ?></h3>
                 </div>
                 <div class="aw-section-body">
                     <div class="row g-3">
+                        <div id="profile_individual_fields" class="col-12 p-0">
+                        <div class="row g-3">
                         <?php foreach ( [ 'is_scout' => $pf->is_scout, 'is_sport' => $pf->is_sport ] as $name => $field ) : ?>
                         <div class="col-12">
                             <fieldset class="aw-fieldset">
@@ -584,6 +611,8 @@ class Campaign {
                             <label for="sport_desc" class="aw-label"><?php echo $t( $pf->sport_desc->label ); ?> <span class="aw-opt">facoltativo</span></label>
                             <textarea class="form-control aw-input" id="sport_desc" name="sport_desc"
                                 rows="2" placeholder="<?php echo esc_attr( $pf->sport_desc->placeholder ); ?>"></textarea>
+                        </div>
+                        </div>
                         </div>
                         <div class="col-12">
                             <label for="profile_notes" class="aw-label"><?php echo $t( $pf->profile_notes->label ); ?> <span class="aw-opt">facoltativo</span></label>

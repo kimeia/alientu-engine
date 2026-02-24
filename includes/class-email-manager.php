@@ -514,6 +514,8 @@ EOT;
 
             'individual' => 'Iscrizione Individuale',
 
+            'group'      => 'Iscrizione Gruppo',
+
             'social'     => 'Solo Conviviale',
 
             default      => 'Iscrizione',
@@ -541,6 +543,8 @@ EOT;
             'team'       => 'SQUADRA',
 
             'individual' => 'INDIVIDUALE',
+
+            'group'      => 'GRUPPO',
 
             'social'     => 'CONVIVIALE',
 
