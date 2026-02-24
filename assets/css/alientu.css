@@ -1,220 +1,446 @@
-/*
- * alientu.css — Alientu 2026
- * Sovrascritture Bootstrap 5 + stili custom.
- */
-
-/* ════ 1. VARIABILI & RESET ════════════════════════════════════ */
-:root {
-  --aw-black:    #231F20;
-  --aw-bordeaux: #4A1F2A;
-  --aw-ruby:     #7E132A;
-  --aw-terra:    #B6482B;
-  --aw-ocra:     #D38E2D;
-  --aw-beige:    #CBB8A5;
-  --aw-cream:    #FAF8F5;
-  --aw-white:    #FFFFFF;
-  --aw-ok:       #3A5C2A;
-  --aw-error:    #7E132A;
-  --earth:       var(--aw-black);
-  --bark:        var(--aw-bordeaux);
-  --moss:        var(--aw-ruby);
-  --ember:       var(--aw-terra);
-  --ember-lt:    var(--aw-ocra);
-  --warm-gray:   var(--aw-beige);
-  --cream:       var(--aw-cream);
-  --ok:          var(--aw-ok);
-  --error:       var(--aw-error);
-  --ff-head: 'Oswald', sans-serif;
-  --ff-body: 'Roboto Condensed', sans-serif;
-  --r: 4px; --r-lg: 8px;
-  --shadow: 0 2px 12px rgba(35,31,32,.10);
-  --shadow-lg: 0 8px 32px rgba(35,31,32,.15);
-}
-*, *::before, *::after { box-sizing: border-box; }
-body { font-family: var(--ff-body); background: var(--aw-white); color: var(--aw-black); min-height: 100vh; }
-
-/* ════ 2. HEADER & WRAPPER ════════════════════════════════════ */
-.aw-header { background: var(--aw-black); color: var(--aw-cream); padding: 28px 24px 24px; border-bottom: 4px solid var(--aw-terra); }
-.aw-header h1 { font-family: var(--ff-head); font-size: clamp(1.6rem,4vw,2.4rem); letter-spacing: -.5px; line-height: 1; margin: 0; }
-.aw-subtitle { font-size: .85rem; font-weight: 300; font-style: italic; color: var(--aw-beige); margin-top: 6px; letter-spacing: .5px; }
-.aw-badge { display: inline-block; background: var(--aw-terra); color: #fff; font-family: var(--ff-head); font-size: .7rem; letter-spacing: 2px; padding: 3px 10px; border-radius: 2px; margin-bottom: 10px; text-transform: uppercase; }
-.aw-wrapper { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
-
-/* ════ 3. STEP INDICATOR ══════════════════════════════════════ */
-.aw-steps { display: flex; align-items: center; margin: 28px 0 0; padding: 0 4px; }
-.aw-step { display: flex; align-items: center; gap: 8px; font-size: .75rem; font-weight: 500; letter-spacing: .4px; text-transform: uppercase; color: var(--aw-beige); transition: color .3s; }
-.aw-step.active { color: var(--aw-ruby); }
-.aw-step.done   { color: var(--aw-bordeaux); }
-.aw-step-dot { width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--aw-beige); display: flex; align-items: center; justify-content: center; font-family: var(--ff-head); font-size: .7rem; background: var(--aw-cream); flex-shrink: 0; color: var(--aw-beige); transition: border-color .3s, background .3s, color .3s; }
-.aw-step.active .aw-step-dot { border-color: var(--aw-ruby);     background: var(--aw-ruby);     color: #fff; }
-.aw-step.done   .aw-step-dot { border-color: var(--aw-bordeaux); background: var(--aw-bordeaux); color: #fff; }
-.aw-step-connector { flex: 1; height: 2px; background: var(--aw-beige); margin: 0 4px; transition: background .3s; }
-.aw-step-connector.done { background: var(--aw-bordeaux); }
-
-/* ════ 4. BACK BAR ════════════════════════════════════════════ */
-.aw-back-bar { display: flex; align-items: center; gap: 10px; margin: 20px 0 4px; padding: 10px 0; border-bottom: 1px solid var(--aw-beige); }
-.aw-btn-back { background: none; border: 1.5px solid var(--aw-beige); border-radius: var(--r); color: var(--aw-bordeaux); font-family: var(--ff-body); font-size: .82rem; padding: 6px 14px; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: border-color .2s, color .2s; }
-.aw-btn-back:hover { border-color: var(--aw-bordeaux); color: var(--aw-black); }
-.aw-selected-type { font-size: .78rem; color: var(--aw-terra); font-style: italic; }
-.aw-selected-type strong { font-style: normal; color: var(--aw-bordeaux); font-weight: 500; }
-
-/* ════ 5. INTRO BLOCK ═════════════════════════════════════════ */
-.aw-intro-block { background: var(--aw-bordeaux); color: var(--aw-cream); border-radius: var(--r-lg); padding: 24px 28px; margin-top: 28px; position: relative; overflow: hidden; }
-.aw-intro-block::before { content: ''; position: absolute; top: -30px; right: -30px; width: 120px; height: 120px; border: 3px solid rgba(255,255,255,.08); border-radius: 50%; }
-.aw-intro-block h2 { font-family: var(--ff-head); font-size: 1.15rem; margin-bottom: 10px; color: #fff; }
-.aw-intro-block p  { font-size: .9rem; font-weight: 300; line-height: 1.65; color: rgba(255,255,255,.85); margin: 0; }
-
-/* ════ 6. CARD SELEZIONE TIPO ═════════════════════════════════ */
-.aw-type-card { background: var(--aw-cream); border: 2px solid var(--aw-beige); border-radius: var(--r-lg); padding: 24px 20px 20px; display: flex; flex-direction: column; cursor: pointer; transition: border-color .2s, box-shadow .2s, transform .2s; position: relative; overflow: hidden; }
-.aw-type-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--aw-beige); transition: background .2s; }
-.aw-type-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-3px); }
-.aw-type-card[data-type="team"]:hover         { border-color: var(--aw-ruby); }
-.aw-type-card[data-type="team"]:hover::before { background: var(--aw-ruby); }
-.aw-type-card[data-type="individual"]:hover         { border-color: var(--aw-terra); }
-.aw-type-card[data-type="individual"]:hover::before { background: var(--aw-terra); }
-.aw-type-card[data-type="social"]:hover         { border-color: var(--aw-ocra); }
-.aw-type-card[data-type="social"]:hover::before { background: var(--aw-ocra); }
-.aw-card-icon  { font-size: 1.8rem; line-height: 1; margin-bottom: 14px; display: block; color: var(--aw-terra); }
-.aw-card-label { font-size: .68rem; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; color: var(--aw-beige); margin-bottom: 4px; }
-.aw-card-title { font-family: var(--ff-head); font-size: 1.1rem; color: var(--aw-black); line-height: 1.15; margin-bottom: 12px; }
-.aw-card-desc  { font-size: .83rem; color: var(--aw-bordeaux); line-height: 1.6; font-weight: 300; flex: 1; }
-.aw-card-rules { margin: 12px 0; padding-top: 12px; border-top: 1px dashed var(--aw-beige); display: flex; flex-direction: column; gap: 4px; }
-.aw-card-rule  { font-size: .75rem; color: var(--aw-terra); display: flex; align-items: baseline; gap: 6px; }
-.aw-card-rule::before { content: '·'; color: var(--aw-ocra); font-weight: 700; flex-shrink: 0; }
-.aw-card-btn   { background: var(--aw-black); color: var(--aw-cream); border: none; border-radius: var(--r); padding: 10px 18px; font-family: var(--ff-head); font-size: .8rem; letter-spacing: .5px; text-transform: uppercase; cursor: pointer; transition: background .2s; }
-.aw-type-card[data-type="team"]       .aw-card-btn:hover { background: var(--aw-ruby); }
-.aw-type-card[data-type="individual"] .aw-card-btn:hover { background: var(--aw-terra); }
-.aw-type-card[data-type="social"]     .aw-card-btn:hover { background: var(--aw-ocra); color: var(--aw-black); }
-
-/* ════ 7. SEZIONI FORM ════════════════════════════════════════ */
-.aw-form-section { background: var(--aw-cream); border-radius: var(--r-lg); margin: 16px 0; overflow: hidden; box-shadow: var(--shadow); }
-.aw-section-header { background: var(--aw-bordeaux); color: var(--aw-cream); padding: 14px 20px; display: flex; align-items: center; gap: 12px; }
-.aw-section-header h3, .aw-section-header h4 { font-family: var(--ff-head); font-size: .95rem; letter-spacing: .5px; text-transform: uppercase; margin: 0; }
-.aw-sec-num { font-family: var(--ff-head); font-size: .7rem; background: var(--aw-terra); color: #fff; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.aw-section-body { padding: 20px; }
-.aw-rules-box { background: var(--aw-white); border-left: 3px solid var(--aw-ruby); padding: 10px 14px; border-radius: 0 var(--r) var(--r) 0; font-size: .82rem; color: var(--aw-bordeaux); line-height: 1.6; }
-
-/* ════ 8. CAMPI, LABEL, INPUT ═════════════════════════════════ */
-.aw-label { font-size: .78rem; font-weight: 500; letter-spacing: .4px; text-transform: uppercase; color: var(--aw-bordeaux); margin-bottom: 5px; display: block; }
-.aw-req { color: var(--aw-terra); margin-left: 2px; }
-.aw-opt { font-weight: 300; font-style: italic; text-transform: none; letter-spacing: 0; color: var(--aw-beige); font-size: .75rem; margin-left: 4px; }
-.aw-band-hint { color: var(--aw-terra); }
-.aw-input.form-control, .aw-input.form-select { border: 1.5px solid var(--aw-beige); border-radius: var(--r); background: #fff; color: var(--aw-black); font-family: var(--ff-body); font-size: .95rem; padding: 9px 13px; transition: border-color .2s, box-shadow .2s; }
-.aw-input.form-control:focus, .aw-input.form-select:focus { border-color: var(--aw-ruby); box-shadow: 0 0 0 3px rgba(126,19,42,.12); outline: none; }
-.aw-input.error { border-color: var(--aw-ruby); box-shadow: 0 0 0 3px rgba(126,19,42,.10); }
-.aw-input.valid { border-color: var(--aw-ok); }
-textarea.aw-input.form-control { resize: vertical; min-height: 80px; line-height: 1.5; }
-.aw-hint { font-size: .78rem; color: var(--aw-terra); font-style: italic; margin-top: 5px; line-height: 1.4; }
-.aw-field-error { font-size: .78rem; color: var(--aw-ruby); margin-top: 4px; display: none; }
-.aw-field-error.visible { display: block; }
-.aw-fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
-.aw-fieldset > legend { padding: 0; }
-
-
-/* ════ 9. RADIO, CHECKBOX, CONSENSI ══════════════════════════ */
-.aw-radio-item { display: flex; align-items: flex-start; gap: 8px; }
-.aw-radio-item input[type="radio"] { width: 17px; height: 17px; flex-shrink: 0; margin-top: 2px; accent-color: var(--aw-ruby); cursor: pointer; }
-.aw-radio-item label { font-size: .88rem; color: var(--aw-black); cursor: pointer; margin: 0; text-transform: none; letter-spacing: 0; font-weight: 400; }
-.aw-check-item { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; }
-.aw-check-item input[type="checkbox"] { width: 17px; height: 17px; flex-shrink: 0; margin-top: 3px; accent-color: var(--aw-ruby); cursor: pointer; }
-.aw-check-item span { font-size: .85rem; line-height: 1.5; color: var(--aw-black); }
-.aw-consent-block { padding: 4px 0; margin-bottom: 8px; }
-.aw-consent-block.error .aw-check-item span { color: var(--aw-ruby); }
-
-/* ════ 10. RIPETITORE GIOCATORI (A3) ═════════════════════════ */
-.aw-player-block { border: 1.5px solid var(--aw-beige); border-radius: var(--r-lg); overflow: hidden; transition: border-color .2s; }
-.aw-player-block:focus-within { border-color: var(--aw-ruby); }
-.aw-player-header { background: var(--aw-white); padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--aw-beige); }
-.aw-player-num { font-family: var(--ff-head); font-size: .8rem; color: var(--aw-bordeaux); letter-spacing: .5px; text-transform: uppercase; }
-.aw-fascia-badge { font-size: .72rem; font-weight: 500; padding: 2px 10px; border-radius: 12px; background: var(--aw-beige); color: var(--aw-black); transition: background .2s, color .2s; }
-.aw-fascia-badge.band-A { background: #7BA3C4; color: #fff; }
-.aw-fascia-badge.band-B { background: var(--aw-ruby);     color: #fff; }
-.aw-fascia-badge.band-C { background: var(--aw-terra);    color: #fff; }
-.aw-fascia-badge.band-D { background: var(--aw-bordeaux); color: #fff; }
-.aw-player-body { padding: 16px; }
-.aw-btn-contact-toggle { background: none; border: 1px dashed var(--aw-terra); color: var(--aw-terra); font-family: var(--ff-body); font-size: .8rem; padding: 5px 13px; border-radius: var(--r); cursor: pointer; transition: all .2s; }
-.aw-btn-contact-toggle:hover { background: rgba(182,72,43,.06); border-color: var(--aw-bordeaux); color: var(--aw-bordeaux); }
-.aw-btn-contact-toggle.open  { color: var(--aw-ruby); border-color: var(--aw-ruby); }
-.aw-contact-note { font-size: .75rem; color: var(--aw-terra); font-style: italic; margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--aw-beige); line-height: 1.5; }
-
-/* ════ 11. RIPETITORE PARTECIPANTI CONVIVIALE (C2) ════════════ */
-.aw-social-participant-block { border: 1.5px solid var(--aw-beige); border-radius: var(--r-lg); overflow: hidden; transition: border-color .2s; }
-.aw-social-participant-block:focus-within { border-color: var(--aw-ocra); }
-.aw-social-participant-header { background: var(--aw-white); padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--aw-beige); }
-.aw-social-participant-num { font-family: var(--ff-head); font-size: .8rem; color: var(--aw-bordeaux); letter-spacing: .5px; text-transform: uppercase; }
-.aw-btn-remove-participant { background: none; border: 1px solid var(--aw-beige); color: var(--aw-beige); font-size: .75rem; padding: 3px 10px; border-radius: var(--r); cursor: pointer; transition: all .2s; }
-.aw-btn-remove-participant:hover { border-color: var(--aw-ruby); color: var(--aw-ruby); }
-.aw-btn-add { background: none; border: 1.5px dashed var(--aw-terra); color: var(--aw-terra); font-family: var(--ff-body); font-size: .85rem; padding: 8px 18px; border-radius: var(--r); cursor: pointer; transition: all .2s; }
-.aw-btn-add:hover { background: rgba(182,72,43,.06); border-color: var(--aw-bordeaux); color: var(--aw-bordeaux); }
-
-/* ════ 12. COLORI (A2) ════════════════════════════════════════ */
-.aw-color-slot { display: grid; grid-template-columns: 70px 1fr; align-items: center; gap: 12px; }
-.aw-slot-label { font-size: .78rem; font-weight: 500; text-transform: uppercase; letter-spacing: .5px; color: var(--aw-bordeaux); text-align: right; }
-.aw-pref-num { display: inline-flex; align-items: center; justify-content: center; background: var(--aw-bordeaux); color: var(--aw-cream); width: 20px; height: 20px; border-radius: 50%; font-family: var(--ff-head); font-size: .65rem; margin-right: 4px; }
-
-/* ════ 13. VALIDAZIONE COMPOSIZIONE (A4) ══════════════════════ */
-.aw-validation-panel { border-radius: var(--r); padding: 12px 16px; font-size: .85rem; }
-.aw-validation-panel.valid   { background: #EDF7EE; border: 1.5px solid var(--aw-ok);   color: var(--aw-ok); }
-.aw-validation-panel.invalid { background: #FDF0F0; border: 1.5px solid var(--aw-ruby); color: var(--aw-ruby); }
-.aw-validation-panel ul { margin: 6px 0 0; padding-left: 18px; }
-
-/* ════ 14. QUOTE E PAGAMENTO ══════════════════════════════════ */
-.aw-quote-panel { background: var(--aw-black); color: var(--aw-cream); border-radius: var(--r-lg); padding: 20px 24px; }
-.aw-quote-row { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,.08); font-size: .9rem; }
-.aw-ql { color: var(--aw-beige); font-weight: 300; }
-.aw-qv { font-family: var(--ff-head); font-weight: 500; }
-.aw-quote-total { display: flex; justify-content: space-between; align-items: baseline; margin-top: 12px; padding-top: 12px; border-top: 2px solid var(--aw-terra); }
-.aw-quote-total .aw-ql { font-size: 1rem; font-weight: 500; color: var(--aw-cream); }
-.aw-quote-total .aw-qv { font-family: var(--ff-head); font-size: 1.4rem; color: var(--aw-ocra); }
-.aw-qv-final { font-size: 1.6rem !important; }
-.aw-donation-input { background: rgba(255,255,255,.08) !important; border-color: rgba(255,255,255,.2) !important; color: var(--aw-cream) !important; }
-.aw-donation-input::placeholder { color: rgba(255,255,255,.3); }
-.aw-donation-input:focus { border-color: var(--aw-ocra) !important; box-shadow: 0 0 0 3px rgba(211,142,45,.2) !important; }
-.aw-payment-info { background: #FFF8F0; border: 1.5px solid var(--aw-terra); border-radius: var(--r); padding: 16px 20px; }
-.aw-payment-info h4 { font-family: var(--ff-head); font-size: .85rem; text-transform: uppercase; letter-spacing: .5px; color: var(--aw-terra); margin-bottom: 10px; }
-.aw-payment-info p  { font-size: .85rem; line-height: 1.6; color: var(--aw-bordeaux); margin: 0; }
-.aw-causale { font-family: monospace; background: var(--aw-black); color: var(--aw-ocra); padding: 8px 12px; border-radius: var(--r); font-size: .82rem; margin: 10px 0; letter-spacing: .5px; word-break: break-all; }
-
-/* ════ 15. BOTTONI ════════════════════════════════════════════ */
-.aw-btn-submit { background: var(--aw-ruby); color: #fff; border: none; border-radius: var(--r); padding: 14px 48px; font-family: var(--ff-head); font-size: 1rem; letter-spacing: .5px; text-transform: uppercase; cursor: pointer; transition: background .2s, transform .1s, box-shadow .2s; box-shadow: var(--shadow); }
-.aw-btn-submit:hover { background: var(--aw-bordeaux); transform: translateY(-1px); box-shadow: var(--shadow-lg); }
-.aw-btn-edit { background: none; border: 1px solid rgba(255,255,255,.3); color: var(--aw-cream); font-family: var(--ff-body); font-size: .75rem; padding: 4px 12px; border-radius: var(--r); cursor: pointer; transition: background .2s; white-space: nowrap; }
-.aw-btn-edit:hover { background: rgba(255,255,255,.12); }
-.aw-btn-back-form { background: none; border: 1.5px solid var(--aw-beige); color: var(--aw-bordeaux); font-family: var(--ff-body); font-size: .9rem; padding: 12px 28px; border-radius: var(--r); cursor: pointer; transition: border-color .2s, color .2s; }
-.aw-btn-back-form:hover { border-color: var(--aw-bordeaux); color: var(--aw-black); }
-.aw-btn-confirm { background: var(--aw-ruby); color: #fff; border: none; border-radius: var(--r); padding: 12px 36px; font-family: var(--ff-head); font-size: .95rem; letter-spacing: .5px; text-transform: uppercase; cursor: pointer; transition: background .2s, transform .1s, box-shadow .2s; box-shadow: var(--shadow); }
-.aw-btn-confirm:hover { background: var(--aw-bordeaux); transform: translateY(-1px); }
-
-/* ════ 16. RIEPILOGO ══════════════════════════════════════════ */
-.aw-rv-field { margin-bottom: 4px; }
-.aw-rv-label { font-size: .72rem; font-weight: 500; letter-spacing: .5px; text-transform: uppercase; color: var(--aw-beige); margin-bottom: 2px; }
-.aw-rv-value { font-size: .92rem; color: var(--aw-black); }
-.aw-rv-value.empty { color: var(--aw-beige); font-style: italic; }
-.aw-review-total-bar { background: var(--aw-black); color: var(--aw-cream); font-family: var(--ff-head); border-top: 2px solid var(--aw-terra); }
-.aw-review-total-value { font-size: 1.4rem; color: var(--aw-ocra); }
-table.aw-rv-table { width: 100%; border-collapse: collapse; font-size: .85rem; }
-table.aw-rv-table th { text-align: left; padding: 6px 10px; font-size: .72rem; font-weight: 500; letter-spacing: .5px; text-transform: uppercase; color: var(--aw-beige); border-bottom: 1.5px solid var(--aw-beige); }
-table.aw-rv-table td { padding: 8px 10px; color: var(--aw-black); border-bottom: 1px solid rgba(203,184,165,.3); vertical-align: middle; }
-table.aw-rv-table tr:last-child td { border-bottom: none; }
-
-/* ════ 17. LOADER ═════════════════════════════════════════════ */
-.aw-loader-overlay { display: none; position: fixed; inset: 0; background: rgba(35,31,32,.65); backdrop-filter: blur(3px); z-index: 1000; align-items: center; justify-content: center; flex-direction: column; gap: 20px; }
-.aw-loader-overlay.show { display: flex; }
-.aw-loader-spinner { width: 52px; height: 52px; border: 4px solid rgba(255,255,255,.2); border-top-color: var(--aw-ocra); border-radius: 50%; animation: aw-spin .8s linear infinite; }
-@keyframes aw-spin { to { transform: rotate(360deg); } }
-.aw-loader-text { color: #fff; font-family: var(--ff-head); font-size: 1rem; letter-spacing: .5px; text-transform: uppercase; }
-
-/* ════ 18. MESSAGE BOX ════════════════════════════════════════ */
-.aw-msg-list{ text-align: left;}
-.aw-msg-overlay { display: none; position: fixed; inset: 0; background: rgba(35,31,32,.65); backdrop-filter: blur(3px); z-index: 1001; align-items: center; justify-content: center; padding: 24px; }
-.aw-msg-overlay.show { display: flex; }
-.aw-msg-box { background: var(--aw-cream); border-radius: var(--r-lg); padding: 36px 40px; max-width: 480px; width: 100%; text-align: center; box-shadow: var(--shadow-lg); }
-.aw-msg-icon  { font-size: 2.8rem; display: block; line-height: 1; margin-bottom: 16px; }
-.aw-msg-ok    { color: var(--aw-ok); }
-.aw-msg-error { color: var(--aw-ruby); }
-.aw-msg-title { font-family: var(--ff-head); font-size: 1.3rem; color: var(--aw-black); margin-bottom: 10px; }
-.aw-msg-body  { font-size: .9rem; color: var(--aw-bordeaux); line-height: 1.65; margin-bottom: 24px; }
-.aw-btn-msg-ok    { background: var(--aw-ok); color: #fff; border: none; border-radius: var(--r); padding: 11px 32px; font-family: var(--ff-head); font-size: .9rem; letter-spacing: .5px; text-transform: uppercase; cursor: pointer; transition: background .2s; }
-.aw-btn-msg-ok:hover { background: var(--aw-bordeaux); }
-.aw-btn-msg-retry { background: none; border: 1.5px solid var(--aw-ruby); color: var(--aw-ruby); border-radius: var(--r); padding: 11px 32px; font-family: var(--ff-head); font-size: .9rem; letter-spacing: .5px; text-transform: uppercase; cursor: pointer; transition: background .2s, color .2s; }
-.aw-btn-msg-retry:hover { background: var(--aw-ruby); color: #fff; }
+/*
+
+ * alientu.css — Alientu 2026
+
+ * Sovrascritture Bootstrap 5 + stili custom.
+
+ */
+
+
+
+/* ════ 1. VARIABILI & RESET ════════════════════════════════════ */
+
+:root {
+
+  --aw-black:    #231F20;
+
+  --aw-bordeaux: #4A1F2A;
+
+  --aw-ruby:     #7E132A;
+
+  --aw-terra:    #B6482B;
+
+  --aw-ocra:     #D38E2D;
+
+  --aw-beige:    #CBB8A5;
+
+  --aw-cream:    #FAF8F5;
+
+  --aw-white:    #FFFFFF;
+
+  --aw-ok:       #3A5C2A;
+
+  --aw-error:    #7E132A;
+
+  --earth:       var(--aw-black);
+
+  --bark:        var(--aw-bordeaux);
+
+  --moss:        var(--aw-ruby);
+
+  --ember:       var(--aw-terra);
+
+  --ember-lt:    var(--aw-ocra);
+
+  --warm-gray:   var(--aw-beige);
+
+  --cream:       var(--aw-cream);
+
+  --ok:          var(--aw-ok);
+
+  --error:       var(--aw-error);
+
+  --ff-head: 'Oswald', sans-serif;
+
+  --ff-body: 'Roboto Condensed', sans-serif;
+
+  --r: 4px; --r-lg: 8px;
+
+  --shadow: 0 2px 12px rgba(35,31,32,.10);
+
+  --shadow-lg: 0 8px 32px rgba(35,31,32,.15);
+
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body { font-family: var(--ff-body); background: var(--aw-white); color: var(--aw-black); min-height: 100vh; }
+
+
+
+/* ════ 2. HEADER & WRAPPER ════════════════════════════════════ */
+
+.aw-header { background: var(--aw-black); color: var(--aw-cream); padding: 28px 24px 24px; border-bottom: 4px solid var(--aw-terra); }
+
+.aw-header h1 { font-family: var(--ff-head); font-size: clamp(1.6rem,4vw,2.4rem); letter-spacing: -.5px; line-height: 1; margin: 0; }
+
+.aw-subtitle { font-size: .85rem; font-weight: 300; font-style: italic; color: var(--aw-beige); margin-top: 6px; letter-spacing: .5px; }
+
+.aw-badge { display: inline-block; background: var(--aw-terra); color: #fff; font-family: var(--ff-head); font-size: .7rem; letter-spacing: 2px; padding: 3px 10px; border-radius: 2px; margin-bottom: 10px; text-transform: uppercase; }
+
+.aw-wrapper { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+
+
+
+/* ════ 3. STEP INDICATOR ══════════════════════════════════════ */
+
+.aw-steps { display: flex; align-items: center; margin: 28px 0 0; padding: 0 4px; }
+
+.aw-step { display: flex; align-items: center; gap: 8px; font-size: .75rem; font-weight: 500; letter-spacing: .4px; text-transform: uppercase; color: var(--aw-beige); transition: color .3s; }
+
+.aw-step.active { color: var(--aw-ruby); }
+
+.aw-step.done   { color: var(--aw-bordeaux); }
+
+.aw-step-dot { width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--aw-beige); display: flex; align-items: center; justify-content: center; font-family: var(--ff-head); font-size: .7rem; background: var(--aw-cream); flex-shrink: 0; color: var(--aw-beige); transition: border-color .3s, background .3s, color .3s; }
+
+.aw-step.active .aw-step-dot { border-color: var(--aw-ruby);     background: var(--aw-ruby);     color: #fff; }
+
+.aw-step.done   .aw-step-dot { border-color: var(--aw-bordeaux); background: var(--aw-bordeaux); color: #fff; }
+
+.aw-step-connector { flex: 1; height: 2px; background: var(--aw-beige); margin: 0 4px; transition: background .3s; }
+
+.aw-step-connector.done { background: var(--aw-bordeaux); }
+
+
+
+/* ════ 4. BACK BAR ════════════════════════════════════════════ */
+
+.aw-back-bar { display: flex; align-items: center; gap: 10px; margin: 20px 0 4px; padding: 10px 0; border-bottom: 1px solid var(--aw-beige); }
+
+.aw-btn-back { background: none; border: 1.5px solid var(--aw-beige); border-radius: var(--r); color: var(--aw-bordeaux); font-family: var(--ff-body); font-size: .82rem; padding: 6px 14px; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: border-color .2s, color .2s; }
+
+.aw-btn-back:hover { border-color: var(--aw-bordeaux); color: var(--aw-black); }
+
+.aw-selected-type { font-size: .78rem; color: var(--aw-terra); font-style: italic; }
+
+.aw-selected-type strong { font-style: normal; color: var(--aw-bordeaux); font-weight: 500; }
+
+
+
+/* ════ 5. INTRO BLOCK ═════════════════════════════════════════ */
+
+.aw-intro-block { background: var(--aw-bordeaux); color: var(--aw-cream); border-radius: var(--r-lg); padding: 24px 28px; margin-top: 28px; position: relative; overflow: hidden; }
+
+.aw-intro-block::before { content: ''; position: absolute; top: -30px; right: -30px; width: 120px; height: 120px; border: 3px solid rgba(255,255,255,.08); border-radius: 50%; }
+
+.aw-intro-block h2 { font-family: var(--ff-head); font-size: 1.15rem; margin-bottom: 10px; color: #fff; }
+
+.aw-intro-block p  { font-size: .9rem; font-weight: 300; line-height: 1.65; color: rgba(255,255,255,.85); margin: 0; }
+
+
+
+/* ════ 6. CARD SELEZIONE TIPO ═════════════════════════════════ */
+
+.aw-type-card { background: var(--aw-cream); border: 2px solid var(--aw-beige); border-radius: var(--r-lg); padding: 24px 20px 20px; display: flex; flex-direction: column; cursor: pointer; transition: border-color .2s, box-shadow .2s, transform .2s; position: relative; overflow: hidden; }
+
+.aw-type-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--aw-beige); transition: background .2s; }
+
+.aw-type-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-3px); }
+
+.aw-type-card[data-type="team"]:hover         { border-color: var(--aw-ruby); }
+
+.aw-type-card[data-type="team"]:hover::before { background: var(--aw-ruby); }
+
+.aw-type-card[data-type="individual"]:hover         { border-color: var(--aw-terra); }
+
+.aw-type-card[data-type="individual"]:hover::before { background: var(--aw-terra); }
+
+.aw-type-card[data-type="social"]:hover         { border-color: var(--aw-ocra); }
+
+.aw-type-card[data-type="social"]:hover::before { background: var(--aw-ocra); }
+
+.aw-card-icon  { font-size: 1.8rem; line-height: 1; margin-bottom: 14px; display: block; color: var(--aw-terra); }
+
+.aw-card-label { font-size: .68rem; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; color: var(--aw-beige); margin-bottom: 4px; }
+
+.aw-card-title { font-family: var(--ff-head); font-size: 1.1rem; color: var(--aw-black); line-height: 1.15; margin-bottom: 12px; }
+
+.aw-card-desc  { font-size: .83rem; color: var(--aw-bordeaux); line-height: 1.6; font-weight: 300; flex: 1; }
+
+.aw-card-rules { margin: 12px 0; padding-top: 12px; border-top: 1px dashed var(--aw-beige); display: flex; flex-direction: column; gap: 4px; }
+
+.aw-card-rule  { font-size: .75rem; color: var(--aw-terra); display: flex; align-items: baseline; gap: 6px; }
+
+.aw-card-rule::before { content: '·'; color: var(--aw-ocra); font-weight: 700; flex-shrink: 0; }
+
+.aw-card-btn   { background: var(--aw-black); color: var(--aw-cream); border: none; border-radius: var(--r); padding: 10px 18px; font-family: var(--ff-head); font-size: .8rem; letter-spacing: .5px; text-transform: uppercase; cursor: pointer; transition: background .2s; }
+
+.aw-type-card[data-type="team"]       .aw-card-btn:hover { background: var(--aw-ruby); }
+
+.aw-type-card[data-type="individual"] .aw-card-btn:hover { background: var(--aw-terra); }
+
+.aw-type-card[data-type="social"]     .aw-card-btn:hover { background: var(--aw-ocra); color: var(--aw-black); }
+
+
+
+/* ════ 7. SEZIONI FORM ════════════════════════════════════════ */
+
+.aw-form-section { background: var(--aw-cream); border-radius: var(--r-lg); margin: 16px 0; overflow: hidden; box-shadow: var(--shadow); }
+
+.aw-section-header { background: var(--aw-bordeaux); color: var(--aw-cream); padding: 14px 20px; display: flex; align-items: center; gap: 12px; }
+
+.aw-section-header h3, .aw-section-header h4 { font-family: var(--ff-head); font-size: .95rem; letter-spacing: .5px; text-transform: uppercase; margin: 0; }
+
+.aw-sec-num { font-family: var(--ff-head); font-size: .7rem; background: var(--aw-terra); color: #fff; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+
+.aw-section-body { padding: 20px; }
+
+.aw-rules-box { background: var(--aw-white); border-left: 3px solid var(--aw-ruby); padding: 10px 14px; border-radius: 0 var(--r) var(--r) 0; font-size: .82rem; color: var(--aw-bordeaux); line-height: 1.6; }
+
+
+
+/* ════ 8. CAMPI, LABEL, INPUT ═════════════════════════════════ */
+
+.aw-label { font-size: .78rem; font-weight: 500; letter-spacing: .4px; text-transform: uppercase; color: var(--aw-bordeaux); margin-bottom: 5px; display: block; }
+
+.aw-req { color: var(--aw-terra); margin-left: 2px; }
+
+.aw-opt { font-weight: 300; font-style: italic; text-transform: none; letter-spacing: 0; color: var(--aw-beige); font-size: .75rem; margin-left: 4px; }
+
+.aw-band-hint { color: var(--aw-terra); }
+
+.aw-input.form-control, .aw-input.form-select { border: 1.5px solid var(--aw-beige); border-radius: var(--r); background: #fff; color: var(--aw-black); font-family: var(--ff-body); font-size: .95rem; padding: 9px 13px; transition: border-color .2s, box-shadow .2s; }
+
+.aw-input.form-control:focus, .aw-input.form-select:focus { border-color: var(--aw-ruby); box-shadow: 0 0 0 3px rgba(126,19,42,.12); outline: none; }
+
+.aw-input.error { border-color: var(--aw-ruby); box-shadow: 0 0 0 3px rgba(126,19,42,.10); }
+
+.aw-input.valid { border-color: var(--aw-ok); }
+
+textarea.aw-input.form-control { resize: vertical; min-height: 80px; line-height: 1.5; }
+
+.aw-hint { font-size: .78rem; color: var(--aw-terra); font-style: italic; margin-top: 5px; line-height: 1.4; }
+
+.aw-field-error { font-size: .78rem; color: var(--aw-ruby); margin-top: 4px; display: none; }
+
+.aw-field-error.visible { display: block; }
+
+.aw-fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+
+.aw-fieldset > legend { padding: 0; }
+
+
+
+
+
+/* ════ 9. RADIO, CHECKBOX, CONSENSI ══════════════════════════ */
+
+.aw-radio-item { display: flex; align-items: flex-start; gap: 8px; }
+
+.aw-radio-item input[type="radio"] { width: 17px; height: 17px; flex-shrink: 0; margin-top: 2px; accent-color: var(--aw-ruby); cursor: pointer; }
+
+.aw-radio-item label { font-size: .88rem; color: var(--aw-black); cursor: pointer; margin: 0; text-transform: none; letter-spacing: 0; font-weight: 400; }
+
+.aw-check-item { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; }
+
+.aw-check-item input[type="checkbox"] { width: 17px; height: 17px; flex-shrink: 0; margin-top: 3px; accent-color: var(--aw-ruby); cursor: pointer; }
+
+.aw-check-item span { font-size: .85rem; line-height: 1.5; color: var(--aw-black); }
+
+.aw-consent-block { padding: 4px 0; margin-bottom: 8px; }
+
+.aw-consent-block.error .aw-check-item span { color: var(--aw-ruby); }
+
+
+
+/* ════ 10. RIPETITORE GIOCATORI (A3) ═════════════════════════ */
+
+.aw-player-block { border: 1.5px solid var(--aw-beige); border-radius: var(--r-lg); overflow: hidden; transition: border-color .2s; }
+
+.aw-player-block:focus-within { border-color: var(--aw-ruby); }
+
+.aw-player-header { background: var(--aw-white); padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--aw-beige); }
+
+.aw-player-num { font-family: var(--ff-head); font-size: .8rem; color: var(--aw-bordeaux); letter-spacing: .5px; text-transform: uppercase; }
+
+.aw-fascia-badge { font-size: .72rem; font-weight: 500; padding: 2px 10px; border-radius: 12px; background: var(--aw-beige); color: var(--aw-black); transition: background .2s, color .2s; }
+
+.aw-fascia-badge.band-A { background: #7BA3C4; color: #fff; }
+
+.aw-fascia-badge.band-B { background: var(--aw-ruby);     color: #fff; }
+
+.aw-fascia-badge.band-C { background: var(--aw-terra);    color: #fff; }
+
+.aw-fascia-badge.band-D { background: var(--aw-bordeaux); color: #fff; }
+
+.aw-player-body { padding: 16px; }
+
+.aw-btn-contact-toggle { background: none; border: 1px dashed var(--aw-terra); color: var(--aw-terra); font-family: var(--ff-body); font-size: .8rem; padding: 5px 13px; border-radius: var(--r); cursor: pointer; transition: all .2s; }
+
+.aw-btn-contact-toggle:hover { background: rgba(182,72,43,.06); border-color: var(--aw-bordeaux); color: var(--aw-bordeaux); }
+
+.aw-btn-contact-toggle.open  { color: var(--aw-ruby); border-color: var(--aw-ruby); }
+
+.aw-contact-note { font-size: .75rem; color: var(--aw-terra); font-style: italic; margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--aw-beige); line-height: 1.5; }
+
+
+
+/* ════ 11. RIPETITORE PARTECIPANTI CONVIVIALE (C2) ════════════ */
+
+.aw-social-participant-block { border: 1.5px solid var(--aw-beige); border-radius: var(--r-lg); overflow: hidden; transition: border-color .2s; }
+
+.aw-social-participant-block:focus-within { border-color: var(--aw-ocra); }
+
+.aw-social-participant-header { background: var(--aw-white); padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--aw-beige); }
+
+.aw-social-participant-num { font-family: var(--ff-head); font-size: .8rem; color: var(--aw-bordeaux); letter-spacing: .5px; text-transform: uppercase; }
+
+.aw-btn-remove-participant { background: none; border: 1px solid var(--aw-beige); color: var(--aw-beige); font-size: .75rem; padding: 3px 10px; border-radius: var(--r); cursor: pointer; transition: all .2s; }
+
+.aw-btn-remove-participant:hover { border-color: var(--aw-ruby); color: var(--aw-ruby); }
+
+.aw-btn-add { background: none; border: 1.5px dashed var(--aw-terra); color: var(--aw-terra); font-family: var(--ff-body); font-size: .85rem; padding: 8px 18px; border-radius: var(--r); cursor: pointer; transition: all .2s; }
+
+.aw-btn-add:hover { background: rgba(182,72,43,.06); border-color: var(--aw-bordeaux); color: var(--aw-bordeaux); }
+
+
+
+/* ════ 12. COLORI (A2) ════════════════════════════════════════ */
+
+.aw-color-slot { display: grid; grid-template-columns: 70px 1fr; align-items: center; gap: 12px; }
+
+.aw-slot-label { font-size: .78rem; font-weight: 500; text-transform: uppercase; letter-spacing: .5px; color: var(--aw-bordeaux); text-align: right; }
+
+.aw-pref-num { display: inline-flex; align-items: center; justify-content: center; background: var(--aw-bordeaux); color: var(--aw-cream); width: 20px; height: 20px; border-radius: 50%; font-family: var(--ff-head); font-size: .65rem; margin-right: 4px; }
+
+
+
+/* ════ 13. VALIDAZIONE COMPOSIZIONE (A4) ══════════════════════ */
+
+.aw-validation-panel { border-radius: var(--r); padding: 12px 16px; font-size: .85rem; }
+
+.aw-validation-panel.valid   { background: #EDF7EE; border: 1.5px solid var(--aw-ok);   color: var(--aw-ok); }
+
+.aw-validation-panel.invalid { background: #FDF0F0; border: 1.5px solid var(--aw-ruby); color: var(--aw-ruby); }
+
+.aw-validation-panel ul { margin: 6px 0 0; padding-left: 18px; }
+
+
+
+/* ════ 14. QUOTE E PAGAMENTO ══════════════════════════════════ */
+
+.aw-quote-panel { background: var(--aw-black); color: var(--aw-cream); border-radius: var(--r-lg); padding: 20px 24px; }
+
+.aw-quote-row { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,.08); font-size: .9rem; }
+
+.aw-ql { color: var(--aw-beige); font-weight: 300; }
+
+.aw-qv { font-family: var(--ff-head); font-weight: 500; }
+
+.aw-quote-total { display: flex; justify-content: space-between; align-items: baseline; margin-top: 12px; padding-top: 12px; border-top: 2px solid var(--aw-terra); }
+
+.aw-quote-total .aw-ql { font-size: 1rem; font-weight: 500; color: var(--aw-cream); }
+
+.aw-quote-total .aw-qv { font-family: var(--ff-head); font-size: 1.4rem; color: var(--aw-ocra); }
+
+.aw-qv-final { font-size: 1.6rem !important; }
+
+.aw-donation-input { background: rgba(255,255,255,.08) !important; border-color: rgba(255,255,255,.2) !important; color: var(--aw-cream) !important; }
+
+.aw-donation-input::placeholder { color: rgba(255,255,255,.3); }
+
+.aw-donation-input:focus { border-color: var(--aw-ocra) !important; box-shadow: 0 0 0 3px rgba(211,142,45,.2) !important; }
+
+.aw-payment-info { background: #FFF8F0; border: 1.5px solid var(--aw-terra); border-radius: var(--r); padding: 16px 20px; }
+
+.aw-payment-info h4 { font-family: var(--ff-head); font-size: .85rem; text-transform: uppercase; letter-spacing: .5px; color: var(--aw-terra); margin-bottom: 10px; }
+
+.aw-payment-info p  { font-size: .85rem; line-height: 1.6; color: var(--aw-bordeaux); margin: 0; }
+
+.aw-causale { font-family: monospace; background: var(--aw-black); color: var(--aw-ocra); padding: 8px 12px; border-radius: var(--r); font-size: .82rem; margin: 10px 0; letter-spacing: .5px; word-break: break-all; }
+
+
+
+/* ════ 15. BOTTONI ════════════════════════════════════════════ */
+
+.aw-btn-submit { background: var(--aw-ruby); color: #fff; border: none; border-radius: var(--r); padding: 14px 48px; font-family: var(--ff-head); font-size: 1rem; letter-spacing: .5px; text-transform: uppercase; cursor: pointer; transition: background .2s, transform .1s, box-shadow .2s; box-shadow: var(--shadow); }
+
+.aw-btn-submit:hover { background: var(--aw-bordeaux); transform: translateY(-1px); box-shadow: var(--shadow-lg); }
+
+.aw-btn-edit { background: none; border: 1px solid rgba(255,255,255,.3); color: var(--aw-cream); font-family: var(--ff-body); font-size: .75rem; padding: 4px 12px; border-radius: var(--r); cursor: pointer; transition: background .2s; white-space: nowrap; }
+
+.aw-btn-edit:hover { background: rgba(255,255,255,.12); }
+
+.aw-btn-back-form { background: none; border: 1.5px solid var(--aw-beige); color: var(--aw-bordeaux); font-family: var(--ff-body); font-size: .9rem; padding: 12px 28px; border-radius: var(--r); cursor: pointer; transition: border-color .2s, color .2s; }
+
+.aw-btn-back-form:hover { border-color: var(--aw-bordeaux); color: var(--aw-black); }
+
+.aw-btn-confirm { background: var(--aw-ruby); color: #fff; border: none; border-radius: var(--r); padding: 12px 36px; font-family: var(--ff-head); font-size: .95rem; letter-spacing: .5px; text-transform: uppercase; cursor: pointer; transition: background .2s, transform .1s, box-shadow .2s; box-shadow: var(--shadow); }
+
+.aw-btn-confirm:hover { background: var(--aw-bordeaux); transform: translateY(-1px); }
+
+
+
+/* ════ 16. RIEPILOGO ══════════════════════════════════════════ */
+
+.aw-rv-field { margin-bottom: 4px; }
+
+.aw-rv-label { font-size: .72rem; font-weight: 500; letter-spacing: .5px; text-transform: uppercase; color: var(--aw-beige); margin-bottom: 2px; }
+
+.aw-rv-value { font-size: .92rem; color: var(--aw-black); }
+
+.aw-rv-value.empty { color: var(--aw-beige); font-style: italic; }
+
+.aw-review-total-bar { background: var(--aw-black); color: var(--aw-cream); font-family: var(--ff-head); border-top: 2px solid var(--aw-terra); }
+
+.aw-review-total-value { font-size: 1.4rem; color: var(--aw-ocra); }
+
+table.aw-rv-table { width: 100%; border-collapse: collapse; font-size: .85rem; }
+
+table.aw-rv-table th { text-align: left; padding: 6px 10px; font-size: .72rem; font-weight: 500; letter-spacing: .5px; text-transform: uppercase; color: var(--aw-beige); border-bottom: 1.5px solid var(--aw-beige); }
+
+table.aw-rv-table td { padding: 8px 10px; color: var(--aw-black); border-bottom: 1px solid rgba(203,184,165,.3); vertical-align: middle; }
+
+table.aw-rv-table tr:last-child td { border-bottom: none; }
+
+
+
+/* ════ 17. LOADER ═════════════════════════════════════════════ */
+
+.aw-loader-overlay,
+.aw-msg-overlay {
+    max-width: none !important;
+    margin: 0 !important;
+}
+
+.aw-loader-overlay { display: none; position: fixed; inset: 0; background: rgba(35,31,32,.65); backdrop-filter: blur(3px); z-index: 1000; align-items: center; justify-content: center; flex-direction: column; gap: 20px; }
+
+.aw-loader-overlay.show { display: flex; }
+
+.aw-loader-spinner { width: 52px; height: 52px; border: 4px solid rgba(255,255,255,.2); border-top-color: var(--aw-ocra); border-radius: 50%; animation: aw-spin .8s linear infinite; }
+
+@keyframes aw-spin { to { transform: rotate(360deg); } }
+
+.aw-loader-text { color: #fff; font-family: var(--ff-head); font-size: 1rem; letter-spacing: .5px; text-transform: uppercase; }
+
+
+
+/* ════ 18. MESSAGE BOX ════════════════════════════════════════ */
+
+.aw-msg-list{ text-align: left;}
+
+.aw-msg-overlay { display: none; position: fixed; inset: 0; background: rgba(35,31,32,.65); backdrop-filter: blur(3px); z-index: 1001; align-items: center; justify-content: center; padding: 24px; }
+
+.aw-msg-overlay.show { display: flex; }
+
+.aw-msg-box { background: var(--aw-cream); border-radius: var(--r-lg); padding: 36px 40px; max-width: 480px; width: 100%; text-align: center; box-shadow: var(--shadow-lg); }
+
+.aw-msg-icon  { font-size: 2.8rem; display: block; line-height: 1; margin-bottom: 16px; }
+
+.aw-msg-ok    { color: var(--aw-ok); }
+
+.aw-msg-error { color: var(--aw-ruby); }
+
+.aw-msg-title { font-family: var(--ff-head); font-size: 1.3rem; color: var(--aw-black); margin-bottom: 10px; }
+
+.aw-msg-body  { font-size: .9rem; color: var(--aw-bordeaux); line-height: 1.65; margin-bottom: 24px; }
+
+.aw-btn-msg-ok    { background: var(--aw-ok); color: #fff; border: none; border-radius: var(--r); padding: 11px 32px; font-family: var(--ff-head); font-size: .9rem; letter-spacing: .5px; text-transform: uppercase; cursor: pointer; transition: background .2s; margin-top: 30px;}
+
+.aw-btn-msg-ok:hover { background: var(--aw-bordeaux); }
+
+.aw-btn-msg-retry { background: none; border: 1.5px solid var(--aw-ruby); color: var(--aw-ruby); border-radius: var(--r); padding: 11px 32px; font-family: var(--ff-head); font-size: .9rem; letter-spacing: .5px; text-transform: uppercase; cursor: pointer; transition: background .2s, color .2s; }
+
+.aw-btn-msg-retry:hover { background: var(--aw-ruby); color: #fff; }
+

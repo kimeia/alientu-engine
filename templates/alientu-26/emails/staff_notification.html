@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        h1 { color: #8B2635; }
+        .info-box { background: #f5f5f5; padding: 15px; border-left: 4px solid #8B2635; margin: 20px 0; }
+        .label { font-weight: bold; color: #666; }
+        .value { color: #000; }
+        .footer { margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd; font-size: 0.9em; color: #666; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Nuova iscrizione Alientu 2026</h1>
+        
+        <div class="info-box">
+            <p><span class="label">Codice iscrizione:</span> <span class="value">{{registration_code}}</span></p>
+            <p><span class="label">Tipo:</span> <span class="value">{{type_label}}</span></p>
+            <p><span class="label">Stato:</span> <span class="value">{{status}}</span></p>
+            <p><span class="label">Data:</span> <span class="value">{{created_at}}</span></p>
+        </div>
+
+        <h2>Referente</h2>
+        <p>
+            <strong>{{referente_name}}</strong><br>
+            Email: {{referente_email}}<br>
+            Tel: {{referente_phone}}
+        </p>
+
+        {{#if team_name}}
+        <h2>Squadra</h2>
+        <p><strong>{{team_name}}</strong></p>
+        <p>Numero giocatori: {{num_players}}</p>
+        {{/if}}
+
+        <h2>Quote</h2>
+        <p>
+            <span class="label">Quota gioco:</span> € {{total_game}}<br>
+            <span class="label">Quota conviviale:</span> € {{total_social}}<br>
+            {{#if donation}}
+            <span class="label">Donazione:</span> € {{donation}}<br>
+            {{/if}}
+            <strong>Totale: € {{total_final}}</strong>
+        </p>
+
+        <div class="footer">
+            <p><a href="{{admin_url}}">Visualizza in admin →</a></p>
+            <p>Questa è una notifica automatica generata da Alientu Engine.</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,208 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   PLAYER BLOCKS - Player input rows for team composition
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.aw-player-block {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  position: relative;
+}
+
+.aw-player-block.has-error {
+  border-color: rgba(231, 76, 60, 0.3);
+  background: rgba(231, 76, 60, 0.1);
+}
+
+.aw-player-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.aw-player-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: rgba(52, 152, 219, 0.3);
+  border: 1px solid var(--accent-cool);
+  border-radius: 50%;
+  font-weight: 600;
+  color: var(--accent-cool);
+  font-size: var(--text-sm);
+}
+
+.aw-player-remove {
+  background: transparent;
+  border: 1px solid var(--danger);
+  color: var(--danger);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  font-weight: 600;
+}
+
+.aw-player-remove:hover {
+  background: rgba(231, 76, 60, 0.1);
+}
+
+.aw-player-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+}
+
+.aw-player-body .form-control {
+  font-size: var(--text-base);
+}
+
+.aw-player-input-label {
+  display: block;
+  font-size: var(--text-xs);
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+/* ─── PARTICIPANT BLOCK (For social/C) ───────────────────────────────────── */
+
+.aw-participant-block {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  position: relative;
+}
+
+.aw-participant-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.aw-participant-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: rgba(39, 174, 96, 0.3);
+  border: 1px solid var(--success);
+  border-radius: 50%;
+  font-weight: 600;
+  color: var(--success);
+  font-size: var(--text-sm);
+}
+
+.aw-participant-remove {
+  background: transparent;
+  border: 1px solid var(--danger);
+  color: var(--danger);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  font-weight: 600;
+}
+
+.aw-participant-remove:hover {
+  background: rgba(231, 76, 60, 0.1);
+}
+
+.aw-participant-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.aw-participant-body .form-control {
+  font-size: var(--text-base);
+}
+
+/* ─── SOCIAL PLAYERS LIST (For team/A selecting conviviale participants) ─── */
+
+.aw-social-player-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.aw-social-player-item input[type="checkbox"] {
+  cursor: pointer;
+  accent-color: var(--accent-warm);
+  width: 18px;
+  height: 18px;
+  margin: 0;
+}
+
+.aw-social-player-item label {
+  cursor: pointer;
+  margin: 0;
+  flex: 1;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* ─── RESPONSIVE ─────────────────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .aw-player-body {
+    grid-template-columns: 1fr;
+  }
+
+  .aw-participant-body {
+    grid-template-columns: 1fr;
+  }
+
+  .row {
+    grid-template-columns: 1fr;
+  }
+
+  .col-sm-6 {
+    grid-column: span 1;
+  }
+
+  .col-sm-3 {
+    grid-column: span 1;
+  }
+}
+
+@media (max-width: 576px) {
+  .aw-player-header,
+  .aw-participant-header {
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .aw-player-num,
+  .aw-player-remove,
+  .aw-participant-num,
+  .aw-participant-remove {
+    width: 28px;
+    height: 28px;
+    font-size: var(--text-xs);
+  }
+}

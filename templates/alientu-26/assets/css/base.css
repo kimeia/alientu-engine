@@ -1,0 +1,267 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   BASE STYLES - Color palette, typography, layout
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* ─── Colors ─────────────────────────────────────────────────────────── */
+  --primary-dark: #1a1a1a;
+  --primary-light: #2d2d2d;
+  --accent-warm: #e74c3c;
+  --accent-cool: #3498db;
+  --success: #27ae60;
+  --warning: #f39c12;
+  --danger: #e74c3c;
+  --light-gray: #ecf0f1;
+  --mid-gray: #95a5a6;
+  --dark-gray: #34495e;
+  --warm-gray: #bdc3c7;
+  --bark: #555;
+  
+  /* ─── Typography ────────────────────────────────────────────────────── */
+  --font-display: 'Oswald', sans-serif;
+  --font-body: 'Roboto Condensed', sans-serif;
+  --text-base: 1rem;
+  --text-sm: 0.875rem;
+  --text-xs: 0.75rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.5rem;
+  --text-2xl: 2rem;
+  
+  /* ─── Spacing ────────────────────────────────────────────────────────── */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 3rem;
+  
+  /* ─── Border radius ──────────────────────────────────────────────────── */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 1rem;
+  
+  /* ─── Shadows ────────────────────────────────────────────────────────── */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  font-family: var(--font-body);
+  background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-light) 100%);
+  color: #fff;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ─── HEADER ─────────────────────────────────────────────────────────────── */
+
+.aw-header {
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.7), rgba(20, 20, 30, 0.7)),
+              url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400"><defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,.05)" stroke-width="1"/></pattern></defs><rect width="1200" height="400" fill="url(%23grid)"/></svg>');
+  background-attachment: fixed;
+  padding: 4rem 1rem;
+  text-align: center;
+  border-bottom: 3px solid var(--accent-warm);
+  margin-bottom: 2rem;
+}
+
+.aw-badge {
+  display: inline-block;
+  background: rgba(231, 76, 60, 0.2);
+  border: 1px solid var(--accent-warm);
+  color: var(--accent-warm);
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-lg);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+}
+
+.aw-header h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 8vw, 3.5rem);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  margin: 0.5rem 0;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.aw-subtitle {
+  font-size: var(--text-lg);
+  color: var(--warm-gray);
+  font-weight: 300;
+  letter-spacing: 0.02em;
+  margin-top: 0.5rem;
+}
+
+/* ─── WRAPPER ────────────────────────────────────────────────────────────── */
+
+.aw-wrapper {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* ─── TYPOGRAPHY ─────────────────────────────────────────────────────────── */
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  margin-bottom: 0.75rem;
+}
+
+h2 {
+  font-size: var(--text-2xl);
+  font-weight: 700;
+}
+
+h3 {
+  font-size: var(--text-xl);
+  font-weight: 600;
+}
+
+h4 {
+  font-size: var(--text-lg);
+  font-weight: 600;
+}
+
+p {
+  font-size: var(--text-base);
+  margin-bottom: 1rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+small {
+  font-size: var(--text-sm);
+}
+
+/* ─── UTILITY CLASSES ────────────────────────────────────────────────────── */
+
+.mb-0 {
+  margin-bottom: 0;
+}
+
+.mb-1 {
+  margin-bottom: 0.25rem;
+}
+
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+
+.mb-3 {
+  margin-bottom: 1rem;
+}
+
+.mb-4 {
+  margin-bottom: 1.5rem;
+}
+
+.mt-1 {
+  margin-top: 0.25rem;
+}
+
+.mt-2 {
+  margin-top: 0.5rem;
+}
+
+.mt-3 {
+  margin-top: 1rem;
+}
+
+.mt-4 {
+  margin-top: 1.5rem;
+}
+
+.me-1 {
+  margin-right: 0.25rem;
+}
+
+.me-2 {
+  margin-right: 0.5rem;
+}
+
+.px-3 {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.py-3 {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.pb-5 {
+  padding-bottom: 3rem;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.d-none {
+  display: none !important;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.pt-3 {
+  padding-top: 1rem;
+}
+
+/* ─── INTRO BLOCK ────────────────────────────────────────────────────────── */
+
+.aw-intro-block {
+  background: rgba(52, 73, 94, 0.3);
+  border-left: 4px solid var(--accent-warm);
+  padding: 1.5rem;
+  border-radius: var(--radius-md);
+  margin-bottom: 2rem;
+}
+
+.aw-intro-block h2 {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+}
+
+.aw-intro-block p {
+  margin-bottom: 0;
+  font-size: var(--text-base);
+}
+
+/* ─── HINT TEXT ──────────────────────────────────────────────────────────── */
+
+.aw-hint {
+  font-size: var(--text-sm);
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 0.5rem;
+  font-style: italic;
+}
+
+/* ─── FOCUS STATES ───────────────────────────────────────────────────────── */
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}

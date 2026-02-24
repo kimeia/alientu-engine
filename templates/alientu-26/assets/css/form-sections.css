@@ -1,0 +1,333 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   FORM SECTIONS - Sections, Headers, Bodies
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.aw-form-section {
+  background: rgba(45, 45, 45, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-lg);
+  margin-bottom: 2rem;
+  overflow: hidden;
+}
+
+.aw-section-header {
+  background: linear-gradient(135deg, rgba(52, 73, 94, 0.5), rgba(0, 0, 0, 0.3));
+  padding: 1.5rem;
+  border-bottom: 2px solid var(--accent-warm);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.aw-sec-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 45px;
+  height: 45px;
+  background: var(--accent-warm);
+  color: #fff;
+  border-radius: 50%;
+  font-weight: 700;
+  font-size: var(--text-lg);
+  flex-shrink: 0;
+}
+
+.aw-section-header h3 {
+  margin: 0;
+  font-size: var(--text-xl);
+  flex: 1;
+}
+
+.aw-section-body {
+  padding: 2rem;
+}
+
+/* ─── COLOR SLOTS ────────────────────────────────────────────────────────── */
+
+.aw-color-slot {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.aw-slot-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.8);
+  min-width: 70px;
+  font-size: var(--text-sm);
+}
+
+.aw-pref-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 25px;
+  height: 25px;
+  background: var(--accent-warm);
+  color: #fff;
+  border-radius: 50%;
+  font-size: var(--text-xs);
+  font-weight: 700;
+}
+
+.aw-color-slot .form-select {
+  flex: 1;
+}
+
+/* ─── RULES BOX ──────────────────────────────────────────────────────────── */
+
+.aw-rules-box {
+  background: rgba(52, 73, 94, 0.3);
+  border-left: 3px solid var(--accent-cool);
+  padding: 1.5rem;
+  border-radius: var(--radius-md);
+  font-size: var(--text-base);
+}
+
+.aw-rules-box strong {
+  display: block;
+  margin-bottom: 0.75rem;
+  color: var(--accent-cool);
+}
+
+/* ─── VALIDATION PANEL ───────────────────────────────────────────────────── */
+
+.aw-validation-panel {
+  background: rgba(39, 174, 96, 0.15);
+  border: 1px solid rgba(39, 174, 96, 0.3);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  border-left: 3px solid var(--success);
+}
+
+.aw-validation-panel strong {
+  color: var(--success);
+}
+
+.aw-validation-panel ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.aw-validation-panel li {
+  font-size: var(--text-sm);
+  color: rgba(255, 255, 255, 0.8);
+  padding: 0.25rem 0 0.25rem 1.5rem;
+  position: relative;
+}
+
+.aw-validation-panel li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--success);
+  font-weight: 700;
+}
+
+.aw-validation-panel li.error::before {
+  content: '✕';
+  color: var(--danger);
+}
+
+.aw-validation-panel li.error {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* ─── CONSENT BLOCKS ─────────────────────────────────────────────────────── */
+
+.aw-consent-block {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 0.75rem;
+}
+
+.aw-consent-block:last-child {
+  margin-bottom: 0;
+}
+
+/* ─── QUOTE PANEL ────────────────────────────────────────────────────────── */
+
+.aw-quote-panel {
+  background: linear-gradient(135deg, rgba(52, 73, 94, 0.3), rgba(0, 0, 0, 0.2));
+  border: 1px solid rgba(52, 152, 219, 0.3);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  border-left: 4px solid var(--accent-cool);
+}
+
+.aw-quote-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: var(--text-base);
+}
+
+.aw-quote-row:last-of-type {
+  border-bottom: none;
+}
+
+.aw-ql {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.aw-qv {
+  color: #fff;
+  font-weight: 600;
+}
+
+.aw-quote-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  border-top: 2px solid var(--accent-warm);
+  border-bottom: 2px solid var(--accent-warm);
+  font-size: var(--text-lg);
+  font-weight: 600;
+  margin: 1rem 0;
+}
+
+.aw-quote-total .aw-qv-final {
+  font-size: var(--text-2xl);
+  color: var(--accent-warm);
+}
+
+.aw-donation-input {
+  width: 100%;
+  max-width: 200px;
+}
+
+/* ─── PAYMENT INFO ───────────────────────────────────────────────────────── */
+
+.aw-payment-info {
+  background: rgba(52, 73, 94, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+}
+
+.aw-payment-info h4 {
+  margin-top: 0;
+  color: var(--accent-cool);
+}
+
+.aw-causale {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  font-family: 'Courier New', monospace;
+  font-size: var(--text-sm);
+  color: rgba(255, 255, 255, 0.9);
+  word-break: break-all;
+  text-align: center;
+  margin: 1rem 0;
+}
+
+/* ─── REVIEW SECTIONS ────────────────────────────────────────────────────── */
+
+.aw-review-total-bar {
+  background: linear-gradient(135deg, var(--accent-warm), #c0392b);
+  font-weight: 600;
+  font-size: var(--text-lg);
+}
+
+.aw-review-total-value {
+  font-size: var(--text-2xl);
+  color: #fff;
+}
+
+/* ─── UTILITY SIZES ──────────────────────────────────────────────────────── */
+
+.g-3 {
+  gap: 1rem;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.col-12 {
+  grid-column: 1 / -1;
+}
+
+.col-6 {
+  grid-column: span 1;
+}
+
+.col-sm-3 {
+  grid-column: span 1;
+}
+
+.col-sm-6 {
+  grid-column: span 1;
+}
+
+@media (min-width: 576px) {
+  .col-sm-3 {
+    grid-column: span 0.5;
+  }
+
+  .col-sm-6 {
+    grid-column: span 1;
+  }
+}
+
+.gap-2 {
+  gap: 0.5rem;
+}
+
+.gap-3 {
+  gap: 1rem;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.justify-content-between {
+  justify-content: space-between;
+}
+
+.justify-content-center {
+  justify-content: center;
+}
+
+.justify-content-end {
+  justify-content: flex-end;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+.mt-auto {
+  margin-top: auto;
+}
+
+.flex-1 {
+  flex: 1;
+}

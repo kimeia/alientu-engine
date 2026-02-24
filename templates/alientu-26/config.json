@@ -1,91 +1,276 @@
 {
   "template_id": "alientu-26",
   "version": "1.0.0",
+
   "prices": {
     "game": 3.00,
     "social": 5.00
   },
+
   "event": {
     "year": "2026",
     "causale_prefix": "ALIENTU26"
   },
+
   "limits": {
-    "max_teams": null,
-    "max_individuals": null,
-    "max_social": null,
     "team_min_players": 6,
-    "team_max_players": 12
+    "team_max_players": 12,
+    "team_name_min": 3,
+    "team_name_max": 20
   },
-  "texts": {
+
+  "steps": {
+    "step1": "tipo iscrizione",
+    "step2": "inserimento dati",
+    "step3": "verifica e conferma"
+  },
+
+  "step1": {
     "intro": {
+      "title": "come vuoi partecipare?",
+      "text": "Scegli la modalità di iscrizione più adatta. Puoi iscriverti con una squadra già formata, come singolo (ti inseriremo noi in una squadra), oppure partecipare solo al momento conviviale."
+    },
+    "cards": {
       "team": {
-        "h2": "Iscrivi la tua squadra al grande gioco",
-        "p": "Per essere valida, la squadra deve rispettare questi requisiti: 6–12 partecipanti, almeno 3 fasce d'età diverse, almeno 2 per fascia."
+        "label": "Form A",
+        "title": "Iscrizione squadra",
+        "desc": "Avete già un gruppo e volete partecipare al gioco con la vostra squadra.",
+        "rules": ["6–12 partecipanti", "almeno 3 fasce d'età", "almeno 2 per fascia"],
+        "btn": "iscriviti"
       },
       "individual": {
-        "h2": "Iscriviti come singolo partecipante",
-        "p": "Ti inseriremo noi in una squadra, cercando la combinazione migliore in base a fascia d'età e profilo."
+        "label": "Form B",
+        "title": "Iscrizione individuale",
+        "desc": "Iscriviti individualmente e ti inseriremo noi in un gruppo, cercando la combinazione migliore in base a fascia d'età e profilo.",
+        "rules": ["singola persona", "richiesta di inserimento in squadra", "assegnazione a cura dello staff"],
+        "btn": "iscriviti"
       },
       "social": {
-        "h2": "Iscrizione al momento conviviale",
-        "p": "Inserisci i dati del referente e di tutti i partecipanti. La quota è di 5 € a persona."
+        "label": "Form C",
+        "title": "Solo conviviale",
+        "desc": "Non partecipi al gioco ma vuoi essere presente per il momento conviviale finale. Sei il benvenuto.",
+        "rules": ["salsicciata e convivialità", "aperto a tutte le età", "5 € / persona"],
+        "btn": "partecipo"
       }
-    },
-    "type_labels": {
-      "team": "Iscrizione squadra",
-      "individual": "Iscrizione individuale",
-      "social": "Solo conviviale"
-    },
-    "type_causale": {
-      "team": "SQUADRA",
-      "individual": "INDIVIDUALE",
-      "social": "CONVIVIALE"
-    },
-    "age_bands": {
-      "A": "8–11",
-      "B": "11–17",
-      "C": "17–39",
-      "D": "39+"
-    },
-    "validation_errors": {
-      "ref_nome": "Il nome del referente deve contenere almeno 4 caratteri.",
-      "ref_cognome": "Il cognome del referente deve contenere almeno 3 caratteri.",
-      "ref_email": "Inserisci un indirizzo email valido.",
-      "ref_phone": "Il numero di telefono deve contenere tra 8 e 15 cifre.",
-      "ref_fascia": "Seleziona la tua fascia d'età.",
-      "team_name": "Il nome della squadra deve contenere tra 3 e 20 caratteri.",
-      "team_color": "Seleziona almeno un colore per la squadra.",
-      "num_players": "La squadra deve avere tra 6 e 12 partecipanti.",
-      "composition": "La squadra deve avere almeno 3 fasce d'età diverse con almeno 2 partecipanti per fascia.",
-      "players_incomplete": "Tutti i giocatori devono avere nome, cognome e fascia d'età.",
-      "social_mode": "Indica se partecipi al momento conviviale.",
-      "transport_mode": "Indica la tua situazione trasporti.",
-      "is_scout": "Indica se hai esperienza scout.",
-      "is_sport": "Indica se pratichi sport di squadra.",
-      "consents": "Devi accettare il regolamento e l'informativa privacy.",
-      "generic": "Controlla i campi evidenziati e riprova."
     }
   },
-  "emails": {
-    "received": {
-      "subject": "Alientu 2026 — Richiesta ricevuta [{{registration_code}}]",
-      "template": "received.html"
+
+  "form_intro": {
+    "team":       { "h2": "Iscrivi la tua squadra al grande gioco",    "p": "Per essere valida, la squadra deve rispettare questi requisiti: 6–12 partecipanti, almeno 3 fasce d'età diverse, almeno 2 per fascia." },
+    "individual": { "h2": "Iscriviti come singolo partecipante",        "p": "Ti inseriremo noi in una squadra, cercando la combinazione migliore in base a fascia d'età e profilo." },
+    "social":     { "h2": "Iscrizione al momento conviviale",           "p": "Inserisci i dati del referente e di tutti i partecipanti. La quota è di 5 € a persona." }
+  },
+
+  "sections": {
+
+    "referente": {
+      "title_team":       "Dati Referente",
+      "title_individual": "Dati Personali",
+      "title_social":     "Dati Referente",
+      "fields": {
+        "nome":    { "label": "Nome",     "placeholder": "es. Marco",        "error": "minimo 4 caratteri" },
+        "cognome": { "label": "Cognome",  "placeholder": "es. Piras",        "error": "minimo 3 caratteri" },
+        "email":   { "label": "Email",    "placeholder": "email@esempio.it", "error": "inserisci un'email valida" },
+        "tel":     { "label": "Telefono", "placeholder": "+39 333 0000000",  "error": "inserisci un numero valido (8–15 cifre, spazi consentiti)" },
+        "fascia":  {
+          "label": "Fascia d'età",
+          "error": "seleziona la tua fascia d'età",
+          "bands": { "A": "8–11", "B": "11–17", "C": "17–39", "D": "39+" }
+        }
+      },
+      "consensi": {
+        "label":       "Consensi",
+        "regolamento": "ho letto e accetto il <strong>regolamento</strong> e mi impegno a condividerlo con tutta la squadra",
+        "privacy":     "ho letto l'<strong>informativa sulla privacy</strong> e autorizzo il trattamento dei dati personali",
+        "error":       "per proseguire devi accettare entrambe le condizioni"
+      }
     },
-    "needs_review": {
-      "subject": "Alientu 2026 — Richiesta da integrare [{{registration_code}}]",
-      "template": "needs_review.html"
+
+    "team_identity": {
+      "title": "Identità Squadra",
+      "fields": {
+        "colori": {
+          "label":        "Preferenze colore",
+          "hint":         "Indica fino a 3 preferenze (in ordine). Il colore definitivo sarà assegnato dall'organizzazione in base alle disponibilità.",
+          "error":        "scegli almeno una preferenza di colore",
+          "options":      ["rosso", "blu", "verde", "giallo", "arancione", "viola", "bianco", "nero"],
+          "custom_option": "✦ Colore custom…",
+          "pref1_empty":  "— scegli —",
+          "pref2_empty":  "— nessuna —",
+          "pref3_empty":  "— nessuna —"
+        },
+        "color_custom": {
+          "label":       "Descrivi il colore personalizzato",
+          "placeholder": "es. Verde salvia con bordi dorati",
+          "hint":        "Se proponi un colore personalizzato, la squadra dovrà occuparsi della realizzazione di stendardo e scalpi secondo specifiche che riceverai dopo l'approvazione. L'organizzazione si riserva la conferma del colore proposto.",
+          "error":       "descrivi il colore personalizzato"
+        },
+        "team_name": {
+          "label":       "Nome squadra",
+          "placeholder": "es. Aquile del Gennargentu",
+          "hint":        "tra 3 e 20 caratteri — il nome sarà soggetto ad approvazione",
+          "error":       "il nome deve essere tra 3 e 20 caratteri"
+        },
+        "banner": {
+          "label":    "Stendardo",
+          "hint":     "Lo stendardo è fornito dall'organizzazione. Se preferite realizzarlo voi, selezionate l'opzione qui sotto: vi invieremo indicazioni e specifiche.",
+          "opt_org":  "lo fornisce l'organizzazione",
+          "opt_team": "vogliamo realizzare noi lo stendardo"
+        },
+        "banner_notes": {
+          "label":       "Note stendardo",
+          "placeholder": "Indica dimensioni, materiali o altri dettagli rilevanti…"
+        }
+      }
     },
-    "waiting_payment": {
-      "subject": "Alientu 2026 — Istruzioni pagamento [{{registration_code}}]",
-      "template": "waiting_payment.html"
+
+    "composition": {
+      "title":     "Composizione Squadra",
+      "rules_box": "Regole di composizione: 6–12 partecipanti, almeno 3 fasce d'età diverse, e almeno 2 partecipanti per ciascuna fascia presente. Le fasce hanno 1 anno di sovrapposizione (es. chi ha 11 anni può stare in A o B).",
+      "fields": {
+        "num_players": {
+          "label":       "N° giocatori",
+          "placeholder": "6–12",
+          "error":       "inserisci un numero tra 6 e 12"
+        }
+      },
+      "player_fields": {
+        "nome":                  { "label": "Nome",     "placeholder": "nome" },
+        "cognome":               { "label": "Cognome",  "placeholder": "cognome" },
+        "fascia":                { "label": "Fascia d'età", "hint": "le fasce hanno un anno di sovrapposizione per maggiore elasticità." },
+        "email":                 { "label": "Email",    "placeholder": "email@esempio.it" },
+        "phone":                 { "label": "Telefono", "placeholder": "+39 333 0000000" },
+        "contacts_toggle_open":  "aggiungi contatti (facoltativo)",
+        "contacts_toggle_close": "nascondi contatti",
+        "contacts_note":         "email e telefono sono facoltativi. se forniti, potranno essere usati per comunicazioni legate all'evento."
+      }
     },
-    "confirmed": {
-      "subject": "Alientu 2026 — Iscrizione confermata [{{registration_code}}]",
-      "template": "confirmed.html"
+
+    "profile": {
+      "title": "Profilo Partecipante",
+      "fields": {
+        "is_scout":      { "label": "Sei stato scout?",  "opt_si": "sì", "opt_no": "no", "error": "seleziona un'opzione" },
+        "is_sport":      { "label": "Pratichi sport?",   "opt_si": "sì", "opt_no": "no", "error": "seleziona un'opzione" },
+        "sport_desc":    { "label": "Raccontaci",        "placeholder": "Che sport pratichi e a che livello?" },
+        "profile_notes": { "label": "Cose da far sapere",     "placeholder": "Qualcosa che ritieni utile che l'organizzazione sappia su di te…" },
+        "team_pref":     { "label": "Preferenze di squadra",  "placeholder": "es. vorrei far parte della squadra di…" }
+      }
     },
-    "cancelled": {
-      "subject": "Alientu 2026 — Iscrizione annullata [{{registration_code}}]",
-      "template": "cancelled.html"
+
+    "social": {
+      "title": "Momento Conviviale",
+      "fields": {
+        "question_team":       "volete partecipare alla salsicciata?",
+        "question_individual": "vuoi partecipare alla salsicciata?",
+        "opt_all":             "sì, tutti i componenti della squadra",
+        "opt_some":            "sì, solo alcuni",
+        "opt_yes":             "sì",
+        "opt_none":            "no, grazie",
+        "error":               "seleziona un'opzione",
+        "food_notes": {
+          "label":       "Intolleranze alimentari",
+          "placeholder": "Segnala eventuali intolleranze o allergie…"
+        }
+      }
+    },
+
+    "social_participants": {
+      "title":            "Partecipanti",
+      "hint":             "Il tuo nome è già inserito come primo partecipante. Aggiungi gli altri con il pulsante qui sotto.",
+      "btn_add":          "aggiungi partecipante",
+      "label_referente":  "Referente (tu)",
+      "label_participant":"Partecipante",
+      "btn_remove":       "rimuovi",
+      "fields": {
+        "nome":                  { "label": "Nome",     "placeholder": "nome" },
+        "cognome":               { "label": "Cognome",  "placeholder": "cognome" },
+        "intolleranze":          { "label": "Intolleranze alimentari", "placeholder": "Segnala eventuali intolleranze o allergie…" },
+        "email":                 { "label": "Email",    "placeholder": "email@esempio.it" },
+        "phone":                 { "label": "Telefono", "placeholder": "+39 333 0000000" },
+        "contacts_toggle_open":  "aggiungi contatti (facoltativo)",
+        "contacts_toggle_close": "nascondi contatti"
+      }
+    },
+
+    "transport": {
+      "title":    "Trasporti",
+      "question": "come pensate di raggiungere il luogo dell'evento?",
+      "hint":     "Raccogliamo queste informazioni per facilitare gli spostamenti. Se necessario, vi metteremo in contatto con chi offre o cerca passaggio solo dopo il consenso delle parti.",
+      "error":    "seleziona una modalità di trasporto",
+      "fields": {
+        "opt_self":  "arriviamo con mezzi propri",
+        "opt_seek":  "avremmo bisogno di un passaggio",
+        "opt_offer": "possiamo offrire passaggi",
+        "location":      { "label": "luogo di partenza",  "placeholder": "es. Cagliari, Via Roma",  "error": "indica il luogo di partenza" },
+        "seats_needed":  { "label": "posti necessari",    "placeholder": "es. 4",                   "error": "indica quanti posti" },
+        "seats_offered": { "label": "posti disponibili",  "placeholder": "es. 3",                   "error": "indica il numero di posti" }
+      }
+    },
+
+    "quotes": {
+      "title":         "Quote",
+      "label_game":    "quota gioco",
+      "label_social":  "quota conviviale",
+      "label_minimum": "totale minimo",
+      "label_final":   "totale finale",
+      "donation": {
+        "label": "donazione aggiuntiva",
+        "hint":  "La quota minima copre i costi vivi dell'evento.\nOgni donazione extra sarà destinata interamente all'organizzazione: pubblicheremo un bilancio trasparente a consuntivo."
+      },
+      "payment": {
+        "title":  "Come pagare",
+        "text":   "Dopo l'invio riceverai via email il riepilogo e le istruzioni di pagamento.\nPer il bonifico, usa questa causale:",
+        "footer": "Il pagamento conferma l'iscrizione. Conserva la ricevuta."
+      }
     }
+  },
+
+  "buttons": {
+    "back":         "cambia tipo",
+    "to_review":    "verifica i dati inseriti",
+    "confirm_send": "invia richiesta di iscrizione",
+    "back_form":    "torna al form",
+    "edit":         "modifica"
+  },
+
+  "review": {
+    "sections": {
+      "referente":   "Dati referente",
+      "team":        "Identità squadra",
+      "players":     "Composizione squadra",
+      "profile":     "Profilo partecipante",
+      "social":      "Conviviale e trasporti",
+      "quotes":      "Quote",
+      "total_label": "totale finale"
+    }
+  },
+
+  "messages": {
+    "success": {
+      "title": "Richiesta inviata!",
+      "body":  "Abbiamo ricevuto la tua richiesta di iscrizione.\nRiceverai a breve una email con il riepilogo e le istruzioni per il pagamento.",
+      "btn_close": "chiudi"
+    },
+    "error": {
+      "title":     "Qualcosa non ha funzionato",
+      "body":      "Non è stato possibile inviare la richiesta.\nControlla i dati e riprova. Se il problema persiste, contatta l'organizzazione.",
+      "btn_retry": "torna alla compilazione"
+    },
+    "validation": {
+      "title":     "Correggi prima questi punti",
+      "btn_goto":  "vai al primo errore",
+      "btn_close": "chiudi"
+    },
+    "loader": "Stiamo verificando i tuoi dati…"
+  },
+
+  "emails": {
+    "staff_email":      "staff@alientu.net",
+    "received":        { "subject": "Alientu 2026 — Richiesta ricevuta [{{registration_code}}]",    "template": "received.html" },
+    "needs_review":    { "subject": "Alientu 2026 — Richiesta da integrare [{{registration_code}}]", "template": "needs_review.html" },
+    "waiting_payment": { "subject": "Alientu 2026 — Istruzioni pagamento [{{registration_code}}]",   "template": "waiting_payment.html" },
+    "confirmed":       { "subject": "Alientu 2026 — Iscrizione confermata [{{registration_code}}]",  "template": "confirmed.html" },
+    "cancelled":       { "subject": "Alientu 2026 — Iscrizione annullata [{{registration_code}}]",   "template": "cancelled.html" },
+    "staff_notification": { "subject": "Alientu 2026 — Nuova iscrizione {{type}} [{{registration_code}}]", "template": "staff_notification.html" }
   }
 }

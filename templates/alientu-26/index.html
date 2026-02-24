@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alientu 2026 — Iscrizione</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Roboto+Condensed:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="<?php echo esc_attr( wp_get_theme()->get_stylesheet_directory_uri() ); ?>/assets/css/alientu.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="aw-header">
+  <div class="aw-wrapper">
+    <div class="aw-badge">1° Memorial Marco Piras</div>
+    <h1>Alientu 2026</h1>
+    <p class="aw-subtitle">Grande gioco a squadre · Sardegna</p>
+  </div>
+</header>
+
+<div class="aw-wrapper pb-5">
+
+  <!-- STEP INDICATOR -->
+  <nav class="aw-steps" aria-label="Avanzamento iscrizione">
+    <div class="aw-step active" data-step="1"><div class="aw-step-dot">1</div><span>tipo iscrizione</span></div>
+    <div class="aw-step-connector" data-after="1"></div>
+    <div class="aw-step" data-step="2"><div class="aw-step-dot">2</div><span>inserimento dati</span></div>
+    <div class="aw-step-connector" data-after="2"></div>
+    <div class="aw-step" data-step="3"><div class="aw-step-dot">3</div><span>verifica e conferma</span></div>
+  </nav>
+
+  <!-- BACK BAR -->
+  <div class="aw-back-bar d-none" id="back_bar">
+    <button type="button" class="aw-btn-back" id="btn_back"><i class="fa-solid fa-arrow-left"></i> cambia tipo</button>
+    <span class="aw-selected-type"></span>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════
+       STEP 1 — SELEZIONE TIPO
+       ════════════════════════════════════════════════════════ -->
+  <div id="section_type">
+
+    <div class="aw-intro-block mb-4">
+      <h2>come vuoi partecipare?</h2>
+      <p>Scegli la modalità di iscrizione più adatta. Puoi iscriverti con una squadra già formata,
+         come singolo (ti inseriremo noi in una squadra), oppure partecipare solo al momento conviviale.</p>
+    </div>
+
+    <div class="row g-3">
+      <!-- Card A -->
+      <div class="col-12 col-md-4">
+        <div class="aw-type-card h-100" data-type="team">
+          <i class="fa-solid fa-shield-halved aw-card-icon"></i>
+          <div class="aw-card-label">Form A</div>
+          <div class="aw-card-title">Iscrizione squadra</div>
+          <p class="aw-card-desc">Avete già un gruppo e volete partecipare al gioco con la vostra squadra.</p>
+          <div class="aw-card-rules">
+            <span class="aw-card-rule">6–12 partecipanti</span>
+            <span class="aw-card-rule">almeno 3 fasce d'età</span>
+            <span class="aw-card-rule">almeno 2 per fascia</span>
+          </div>
+          <button type="button" class="aw-card-btn w-100 mt-auto pt-3">iscriviti</button>
+        </div>
+      </div>
+      <!-- Card B -->
+      <div class="col-12 col-md-4">
+        <div class="aw-type-card h-100" data-type="individual">
+          <i class="fa-solid fa-user-plus aw-card-icon"></i>
+          <div class="aw-card-label">Form B</div>
+          <div class="aw-card-title">Iscrizione individuale</div>
+          <p class="aw-card-desc">Iscriviti individualmente e ti inseriremo noi in un gruppo, cercando la combinazione migliore in base a fascia d'età e profilo.</p>
+          <div class="aw-card-rules">
+            <span class="aw-card-rule">singola persona</span>
+            <span class="aw-card-rule">richiesta di inserimento in squadra</span>
+            <span class="aw-card-rule">assegnazione a cura dello staff</span>
+          </div>
+          <button type="button" class="aw-card-btn w-100 mt-auto pt-3">iscriviti</button>
+        </div>
+      </div>
+      <!-- Card C -->
+      <div class="col-12 col-md-4">
+        <div class="aw-type-card h-100" data-type="social">
+          <i class="fa-solid fa-utensils aw-card-icon"></i>
+          <div class="aw-card-label">Form C</div>
+          <div class="aw-card-title">Solo conviviale</div>
+          <p class="aw-card-desc">Non partecipi al gioco ma vuoi essere presente per il momento conviviale finale. Sei il benvenuto.</p>
+          <div class="aw-card-rules">
+            <span class="aw-card-rule">salsicciata e convivialità</span>
+            <span class="aw-card-rule">aperto a tutte le età</span>
+            <span class="aw-card-rule">5 € / persona</span>
+          </div>
+          <button type="button" class="aw-card-btn w-100 mt-auto pt-3">partecipo</button>
+        </div>
+      </div>
+    </div>
+  </div><!-- /section_type -->
+
+  <!-- ════════════════════════════════════════════════════════
+       STEP 2 — FORM UNIFICATO
+       ════════════════════════════════════════════════════════ -->
+  <div id="section_form" class="d-none">
+  <form id="aw-form" novalidate>
+
+    <input type="hidden" id="registration_type" name="registration_type" value="">
+
+    <div class="aw-intro-block mt-4 mb-3" id="form_intro"></div>
+
+    <!-- A1/B1/C1 — DATI REFERENTE -->
+    <div class="aw-form-section" id="sec_referente">
+      <div class="aw-section-header">
+        <span class="aw-sec-num" id="num_referente">1</span>
+        <h3 id="title_referente">Dati Referente</h3>
+      </div>
+      <div class="aw-section-body">
+        <div class="row g-3">
+          <div class="col-12 col-sm-6">
+            <label for="ref_nome" class="aw-label">Nome <span class="aw-req">*</span></label>
+            <input type="text" class="form-control aw-input" id="ref_nome" name="ref_nome"
+       minlength="4" placeholder="es. Marco" autocomplete="given-name"
+       required aria-required="true" aria-describedby="err_ref_nome">
+            <div class="aw-field-error" id="err_ref_nome" role="alert" aria-live="polite">minimo 4 caratteri</div>
+          </div>
+          <div class="col-12 col-sm-6">
+            <label for="ref_cognome" class="aw-label">Cognome <span class="aw-req">*</span></label>
+            <input type="text" class="form-control aw-input" id="ref_cognome" name="ref_cognome"
+       minlength="3" placeholder="es. Piras" autocomplete="family-name"
+       required aria-required="true" aria-describedby="err_ref_cognome">
+            <div class="aw-field-error" id="err_ref_cognome">minimo 3 caratteri</div>
+          </div>
+          <div class="col-12 col-sm-6">
+            <label for="ref_email" class="aw-label">Email <span class="aw-req">*</span></label>
+            <input type="email" class="form-control aw-input" id="ref_email" name="ref_email" placeholder="email@esempio.it" autocomplete="email" required aria-required="true" aria-describedby="err_ref_email">
+            <div class="aw-field-error" id="err_ref_email">inserisci un'email valida</div>
+          </div>
+          <div class="col-12 col-sm-6">
+            <label for="ref_tel" class="aw-label">Telefono <span class="aw-req">*</span></label>
+            <input type="tel" class="form-control aw-input" id="ref_tel" name="ref_tel"
+                  placeholder="+39 333 0000000" autocomplete="tel"
+                  inputmode="tel"
+                  pattern="^\+?[0-9\s]{8,20}$"
+                  required aria-required="true" aria-describedby="err_ref_tel">
+            <div class="aw-field-error" id="err_ref_tel" role="alert" aria-live="polite">inserisci un numero valido (8–15 cifre, spazi consentiti)</div>
+
+          </div>
+          <!-- Fascia età — solo B -->
+          <div class="col-12 d-none" id="field_ref_fascia">
+            <fieldset class="aw-fieldset">
+              <legend class="aw-label mb-0">Fascia d'età <span class="aw-req">*</span></legend>
+
+              <div class="d-flex flex-wrap gap-3 mt-1" role="radiogroup" aria-describedby="err_ref_fascia">
+                <div class="aw-radio-item">
+                  <input type="radio" name="ref_fascia" value="A" id="ref_bandA" required aria-required="true">
+                  <label for="ref_bandA">A <small class="aw-band-hint">(8–11)</small></label>
+                </div>
+                <div class="aw-radio-item">
+                  <input type="radio" name="ref_fascia" value="B" id="ref_bandB" required aria-required="true">
+                  <label for="ref_bandB">B <small class="aw-band-hint">(11–17)</small></label>
+                </div>
+                <div class="aw-radio-item">
+                  <input type="radio" name="ref_fascia" value="C" id="ref_bandC" required aria-required="true">
+                  <label for="ref_bandC">C <small class="aw-band-hint">(17–39)</small></label>
+                </div>
+                <div class="aw-radio-item">
+                  <input type="radio" name="ref_fascia" value="D" id="ref_bandD" required aria-required="true">
+                  <label for="ref_bandD">D <small class="aw-band-hint">(39+)</small></label>
+                </div>
+              </div>
+
+              <div class="aw-field-error" id="err_ref_fascia" role="alert" aria-live="polite">seleziona la tua fascia d'età</div>
+            </fieldset>
+          </div>
+          <!-- Consensi -->
+          <div class="col-12">
+            <fieldset class="aw-fieldset">
+              <legend class="aw-label mb-2">Consensi <span class="aw-req">*</span></legend>
+
+              <div class="aw-consent-block" id="cb_regolamento">
+                <label class="aw-check-item">
+                  <input type="checkbox" id="acc_regolamento" name="acc_regolamento"
+                        required aria-required="true" aria-describedby="err_consents">
+                  <span>ho letto e accetto il <strong>regolamento</strong> e mi impegno a condividerlo con tutta la squadra <span class="aw-req">*</span></span>
+                </label>
+              </div>
+
+              <div class="aw-consent-block" id="cb_privacy">
+                <label class="aw-check-item">
+                  <input type="checkbox" id="acc_privacy" name="acc_privacy"
+                        required aria-required="true" aria-describedby="err_consents">
+                  <span>ho letto l'<strong>informativa sulla privacy</strong> e autorizzo il trattamento dei dati personali <span class="aw-req">*</span></span>
+                </label>
+              </div>
+
+              <div class="aw-field-error" id="err_consents" role="alert" aria-live="polite">per proseguire devi accettare entrambe le condizioni</div>
+            </fieldset>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- A2 — IDENTITÀ SQUADRA -->
+    <div class="aw-form-section d-none" id="sec_team_identity">
+      <div class="aw-section-header">
+        <span class="aw-sec-num">A2</span><h3>Identità Squadra</h3>
+      </div>
+      <div class="aw-section-body">
+        <div class="row g-3">
+          <div class="col-12">
+            <label class="aw-label">Preferenze colore <span class="aw-req">*</span></label>
+            <p class="aw-hint">Indica fino a 3 preferenze (in ordine). Il colore definitivo sarà assegnato dall'organizzazione in base alle disponibilità.</p>
+            <div class="d-flex flex-column gap-2 mt-2">
+              <div class="aw-color-slot"><span class="aw-slot-label"><span class="aw-pref-num">1</span>Pref.</span>
+                <select class="form-select aw-input" id="color_1" name="color_1">
+                  <option value="">— scegli —</option>
+                  <option value="rosso">Rosso</option><option value="blu">Blu</option>
+                  <option value="verde">Verde</option><option value="giallo">Giallo</option>
+                  <option value="arancione">Arancione</option><option value="viola">Viola</option>
+                  <option value="bianco">Bianco</option><option value="nero">Nero</option>
+                  <option value="custom">✦ Colore custom…</option>
+                </select></div>
+              <div class="aw-color-slot"><span class="aw-slot-label"><span class="aw-pref-num">2</span>Pref.</span>
+                <select class="form-select aw-input" id="color_2" name="color_2">
+                  <option value="">— nessuna —</option>
+                  <option value="rosso">Rosso</option><option value="blu">Blu</option>
+                  <option value="verde">Verde</option><option value="giallo">Giallo</option>
+                  <option value="arancione">Arancione</option><option value="viola">Viola</option>
+                  <option value="bianco">Bianco</option><option value="nero">Nero</option>
+                  <option value="custom">✦ Colore custom…</option>
+                </select></div>
+              <div class="aw-color-slot"><span class="aw-slot-label"><span class="aw-pref-num">3</span>Pref.</span>
+                <select class="form-select aw-input" id="color_3" name="color_3">
+                  <option value="">— nessuna —</option>
+                  <option value="rosso">Rosso</option><option value="blu">Blu</option>
+                  <option value="verde">Verde</option><option value="giallo">Giallo</option>
+                  <option value="arancione">Arancione</option><option value="viola">Viola</option>
+                  <option value="bianco">Bianco</option><option value="nero">Nero</option>
+                  <option value="custom">✦ Colore custom…</option>
+                </select></div>
+            </div>
+            <div class="aw-field-error" id="err_color_1">scegli almeno una preferenza di colore</div>
+          </div>
+          <div class="col-12 d-none" id="field_custom_color">
+            <label for="color_custom_desc" class="aw-label">Descrivi il colore personalizzato <span class="aw-req">*</span></label>
+            <input type="text" class="form-control aw-input" id="color_custom_desc" name="color_custom_desc" placeholder="es. Verde salvia con bordi dorati">
+            <p class="aw-hint">Se proponi un colore personalizzato, la squadra dovrà occuparsi della realizzazione di stendardo e scalpi secondo specifiche che riceverai dopo l'approvazione. L'organizzazione si riserva la conferma del colore proposto.</p>
+            <div class="aw-field-error" id="err_color_custom_desc">descrivi il colore personalizzato</div>
+          </div>
+          <div class="col-12 col-sm-6">
+            <label for="team_name" class="aw-label">Nome squadra <span class="aw-req">*</span></label>
+            <input type="text" class="form-control aw-input" id="team_name" name="team_name" minlength="3" maxlength="20" placeholder="es. Aquile del Gennargentu">
+            <p class="aw-hint">tra 3 e 20 caratteri — il nome sarà soggetto ad approvazione</p>
+            <div class="aw-field-error" id="err_team_name">il nome deve essere tra 3 e 20 caratteri</div>
+          </div>
+          <div class="col-12">
+            <label class="aw-label">Stendardo</label>
+            <p class="aw-hint">Lo stendardo è fornito dall'organizzazione. Se preferite realizzarlo voi, selezionate l'opzione qui sotto: vi invieremo indicazioni e specifiche.</p>
+            <div class="d-flex flex-column gap-2 mt-1">
+              <div class="aw-radio-item"><input type="radio" name="banner_provider" value="org" id="banner_org" checked><label for="banner_org">lo fornisce l'organizzazione</label></div>
+              <div class="aw-radio-item"><input type="radio" name="banner_provider" value="team" id="banner_team"><label for="banner_team">vogliamo realizzare noi lo stendardo</label></div>
+            </div>
+          </div>
+          <div class="col-12 d-none" id="field_banner_notes">
+            <label for="banner_notes" class="aw-label">Note stendardo <span class="aw-opt">facoltativo</span></label>
+            <textarea class="form-control aw-input" id="banner_notes" name="banner_notes" rows="3" placeholder="Indica dimensioni, materiali o altri dettagli rilevanti…"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- A3+A4 — COMPOSIZIONE SQUADRA -->
+    <div class="aw-form-section d-none" id="sec_composition">
+      <div class="aw-section-header">
+        <span class="aw-sec-num">A3</span><h3>Composizione Squadra</h3>
+      </div>
+      <div class="aw-section-body">
+        <div class="aw-rules-box mb-3">
+          <strong>Regole di composizione:</strong> 6–12 partecipanti, almeno 3 fasce d'età diverse,
+          e almeno 2 partecipanti per ciascuna fascia presente.
+          Le fasce hanno 1 anno di sovrapposizione (es. chi ha 11 anni può stare in A o B).
+        </div>
+        <div class="row g-3">
+          <div class="col-6 col-sm-3">
+            <label for="num_players" class="aw-label">N° giocatori <span class="aw-req">*</span></label>
+            <input type="number" class="form-control aw-input" id="num_players" name="num_players" min="6" max="12" placeholder="6–12">
+            <div class="aw-field-error" id="err_num_players">inserisci un numero tra 6 e 12</div>
+          </div>
+        </div>
+        <div class="aw-validation-panel d-none mt-3" id="validation_panel">
+          <strong>Composizione squadra</strong>
+          <ul id="validation_list" class="mt-1 mb-0"></ul>
+        </div>
+        <div class="d-flex flex-column gap-3 mt-3" id="players_container"></div>
+      </div>
+    </div>
+
+    <!-- B2 — PROFILO PARTECIPANTE -->
+    <div class="aw-form-section d-none" id="sec_profile">
+      <div class="aw-section-header">
+        <span class="aw-sec-num">B2</span><h3>Profilo Partecipante</h3>
+      </div>
+      <div class="aw-section-body">
+        <div class="row g-3">
+          <div class="col-12">
+            <fieldset class="aw-fieldset">
+              <legend class="aw-label mb-0">Sei stato scout? <span class="aw-req">*</span></legend>
+
+              <div class="d-flex gap-3 mt-1" role="radiogroup" aria-describedby="err_is_scout">
+                <div class="aw-radio-item">
+                  <input type="radio" name="is_scout" value="si" id="scout_si" required aria-required="true">
+                  <label for="scout_si">sì</label>
+                </div>
+                <div class="aw-radio-item">
+                  <input type="radio" name="is_scout" value="no" id="scout_no" required aria-required="true">
+                  <label for="scout_no">no</label>
+                </div>
+              </div>
+
+              <div class="aw-field-error" id="err_is_scout" role="alert" aria-live="polite">seleziona un'opzione</div>
+            </fieldset>
+          </div>
+
+          <div class="col-12">
+            <fieldset class="aw-fieldset">
+              <legend class="aw-label mb-0">Pratichi sport? <span class="aw-req">*</span></legend>
+
+              <div class="d-flex gap-3 mt-1" role="radiogroup" aria-describedby="err_is_sport">
+                <div class="aw-radio-item">
+                  <input type="radio" name="is_sport" value="si" id="sport_si" required aria-required="true">
+                  <label for="sport_si">sì</label>
+                </div>
+                <div class="aw-radio-item">
+                  <input type="radio" name="is_sport" value="no" id="sport_no" required aria-required="true">
+                  <label for="sport_no">no</label>
+                </div>
+              </div>
+
+              <div class="aw-field-error" id="err_is_sport" role="alert" aria-live="polite">seleziona un'opzione</div>
+            </fieldset>
+          </div>
+
+          <div class="col-12 d-none" id="field_sport_desc">
+            <label for="sport_desc" class="aw-label">Raccontaci <span class="aw-opt">facoltativo</span></label>
+            <textarea class="form-control aw-input" id="sport_desc" name="sport_desc" rows="2" placeholder="Che sport pratichi e a che livello?"></textarea>
+          </div>
+          <div class="col-12">
+            <label for="profile_notes" class="aw-label">Cose da far sapere <span class="aw-opt">facoltativo</span></label>
+            <textarea class="form-control aw-input" id="profile_notes" name="profile_notes" rows="2" placeholder="Qualcosa che ritieni utile che l'organizzazione sappia su di te…"></textarea>
+          </div>
+          <div class="col-12">
+            <label for="team_pref" class="aw-label">Preferenze di squadra <span class="aw-opt">facoltativo</span></label>
+            <textarea class="form-control aw-input" id="team_pref" name="team_pref" rows="2" placeholder="es. vorrei far parte della squadra di…"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- A5/B3 — CONVIVIALE -->
+    <div class="aw-form-section d-none" id="sec_social">
+      <div class="aw-section-header">
+        <span class="aw-sec-num" id="num_social">A5</span><h3>Momento Conviviale</h3>
+      </div>
+      <div class="aw-section-body">
+        <div class="row g-3">
+          <div class="col-12">
+            <fieldset class="aw-fieldset">
+              <legend class="aw-label mb-0" id="label_social_question">volete partecipare alla salsicciata? <span class="aw-req">*</span></legend>
+
+              <div class="d-flex flex-column gap-2 mt-1" role="radiogroup" aria-describedby="err_social_mode">
+                <div class="aw-radio-item" id="social_opt_all">
+                  <input type="radio" name="social_mode" value="all" id="social_all" required aria-required="true">
+                  <label for="social_all">sì, tutti i componenti della squadra</label>
+                </div>
+                <div class="aw-radio-item" id="social_opt_some">
+                  <input type="radio" name="social_mode" value="some" id="social_some" required aria-required="true">
+                  <label for="social_some">sì, solo alcuni</label>
+                </div>
+                <div class="aw-radio-item d-none" id="social_opt_yes">
+                  <input type="radio" name="social_mode" value="yes_b" id="social_yes" required aria-required="true">
+                  <label for="social_yes">sì</label>
+                </div>
+                <div class="aw-radio-item">
+                  <input type="radio" name="social_mode" value="none" id="social_none" required aria-required="true">
+                  <label for="social_none">no, grazie</label>
+                </div>
+              </div>
+
+              <div class="aw-field-error" id="err_social_mode" role="alert" aria-live="polite">seleziona un'opzione</div>
+            </fieldset>
+          </div>
+
+          
+          <div class="col-12 d-none" id="social_players_list"></div>
+          <div class="col-12 d-none" id="field_food_notes">
+            <label for="food_notes" class="aw-label">Intolleranze alimentari <span class="aw-opt">facoltativo</span></label>
+            <textarea class="form-control aw-input" id="food_notes" name="food_notes" rows="2" placeholder="Segnala eventuali intolleranze o allergie…"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- C2 — PARTECIPANTI CONVIVIALE -->
+    <div class="aw-form-section d-none" id="sec_social_participants">
+      <div class="aw-section-header">
+        <span class="aw-sec-num">C2</span><h3>Partecipanti</h3>
+      </div>
+      <div class="aw-section-body">
+        <p class="aw-hint mb-3">Il tuo nome è già inserito come primo partecipante. Aggiungi gli altri con il pulsante qui sotto.</p>
+        <div class="d-flex flex-column gap-3" id="social_participants_container"></div>
+        <button type="button" class="aw-btn-add mt-3" id="btn_add_social_participant">
+          <i class="fa-solid fa-plus"></i> aggiungi partecipante
+        </button>
+      </div>
+    </div>
+
+    <!-- A6/B4 — TRASPORTI -->
+    <div class="aw-form-section d-none" id="sec_transport">
+      <div class="aw-section-header">
+        <span class="aw-sec-num" id="num_transport">A6</span><h3>Trasporti</h3>
+      </div>
+      <div class="aw-section-body">
+        <div class="row g-3">
+          <div class="col-12">
+            <fieldset class="aw-fieldset">
+              <legend class="aw-label mb-0">come pensate di raggiungere il luogo dell'evento? <span class="aw-req">*</span></legend>
+
+              <div class="d-flex flex-column gap-2 mt-1" role="radiogroup" aria-describedby="err_transport_mode">
+                <div class="aw-radio-item">
+                  <input type="radio" name="transport_mode" value="self" id="tr_self" required aria-required="true">
+                  <label for="tr_self">arriviamo con mezzi propri</label>
+                </div>
+                <div class="aw-radio-item">
+                  <input type="radio" name="transport_mode" value="seek" id="tr_seek" required aria-required="true">
+                  <label for="tr_seek">avremmo bisogno di un passaggio</label>
+                </div>
+                <div class="aw-radio-item">
+                  <input type="radio" name="transport_mode" value="offer" id="tr_offer" required aria-required="true">
+                  <label for="tr_offer">possiamo offrire passaggi</label>
+                </div>
+              </div>
+
+              <div class="aw-field-error" id="err_transport_mode" role="alert" aria-live="polite">seleziona una modalità di trasporto</div>
+            </fieldset>
+          </div>
+
+          
+          <div class="col-12 col-sm-6 d-none" id="field_transport_location">
+            <label for="transport_location" class="aw-label">luogo di partenza <span class="aw-req">*</span></label>
+            <input type="text" class="form-control aw-input" id="transport_location" name="transport_location" placeholder="es. Cagliari, Via Roma">
+            <div class="aw-field-error" id="err_transport_location">indica il luogo di partenza</div>
+          </div>
+          <div class="col-6 col-sm-3 d-none" id="field_transport_seats_needed">
+            <label for="transport_seats_needed" class="aw-label">posti necessari <span class="aw-req">*</span></label>
+            <input type="number" class="form-control aw-input" id="transport_seats_needed" name="transport_seats_needed" min="1" max="20" placeholder="es. 4">
+            <div class="aw-field-error" id="err_transport_seats_needed">indica quanti posti</div>
+          </div>
+          <div class="col-6 col-sm-3 d-none" id="field_transport_seats">
+            <label for="transport_seats" class="aw-label">posti disponibili <span class="aw-req">*</span></label>
+            <input type="number" class="form-control aw-input" id="transport_seats" name="transport_seats" min="1" max="9" placeholder="es. 3">
+            <div class="aw-field-error" id="err_transport_seats">indica il numero di posti</div>
+          </div>
+          <div class="col-12">
+            <p class="aw-hint">Raccogliamo queste informazioni per facilitare gli spostamenti. Se necessario, vi metteremo in contatto con chi offre o cerca passaggio solo dopo il consenso delle parti.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- A7/B5/C3 — QUOTE -->
+    <div class="aw-form-section d-none" id="sec_quotes">
+      <div class="aw-section-header">
+        <span class="aw-sec-num" id="num_quotes">A7</span><h3>Quote</h3>
+      </div>
+      <div class="aw-section-body">
+        <div class="aw-quote-panel">
+          <div class="aw-quote-row" id="qrow_game">
+            <span class="aw-ql">quota gioco (<span id="q_n_players">0</span> giocatori &times; 3 &euro;)</span>
+            <span class="aw-qv">&euro; <span id="q_total_game">0.00</span></span>
+          </div>
+          <div class="aw-quote-row" id="qrow_social">
+            <span class="aw-ql">quota conviviale (<span id="q_n_social">0</span> pers. &times; 5 &euro;)</span>
+            <span class="aw-qv">&euro; <span id="q_total_social">0.00</span></span>
+          </div>
+          <div class="aw-quote-total">
+            <span class="aw-ql">totale minimo</span>
+            <span class="aw-qv">&euro; <span id="q_total_min">0.00</span></span>
+          </div>
+          <div class="mt-3">
+            <label for="donation" class="aw-label" style="color:var(--warm-gray)">donazione aggiuntiva <span class="aw-opt">facoltativa</span></label>
+            <input type="number" class="form-control aw-input aw-donation-input" id="donation" name="donation" min="0" step="0.50" placeholder="0.00">
+            <p class="aw-hint mt-1" style="color:rgba(255,255,255,.45)">La quota minima copre i costi vivi dell'evento.<br>Ogni donazione extra sarà destinata interamente all'organizzazione: pubblicheremo un bilancio trasparente a consuntivo.</p>
+          </div>
+          <div class="aw-quote-total mt-2">
+            <span class="aw-ql">totale finale</span>
+            <span class="aw-qv aw-qv-final">&euro; <span id="q_total_final">0.00</span></span>
+          </div>
+        </div>
+        <div class="aw-payment-info mt-3">
+          <h4><i class="fa-building-columns me-2"></i>Come pagare</h4>
+          <p>Dopo l'invio riceverai via email il riepilogo e le istruzioni per il pagamento.<br>Per il bonifico, usa questa causale:</p>
+          <div class="aw-causale">ALIENTU26 &ndash; <span id="causale_label">SQUADRA</span> &ndash; [CODICE] &ndash; <span id="causale_cognome">[COGNOME]</span></div>
+          <p class="mt-2" style="font-size:.8rem;color:var(--bark)">Il pagamento conferma l'iscrizione. Conserva la ricevuta.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center mt-4">
+      <button type="button" class="aw-btn-submit" id="btn_to_review">
+        <i class="fa-solid fa-eye me-2"></i>verifica i dati inseriti
+      </button>
+    </div>
+
+  </form>
+  </div><!-- /section_form -->
+
+  <!-- ════════════════════════════════════════════════════════
+       STEP 3 — RIEPILOGO
+       ════════════════════════════════════════════════════════ -->
+  <div id="section_review" class="d-none pb-4">
+    <div class="aw-intro-block mt-4 mb-3">
+      <h2>verifica i dati inseriti</h2>
+      <p>Controlla le informazioni prima di inviare la richiesta. Usa "modifica" per correggere qualcosa.</p>
+    </div>
+    <div class="aw-form-section">
+      <div class="aw-section-header d-flex justify-content-between align-items-center">
+        <h4 class="mb-0">Dati referente</h4>
+        <button type="button" class="aw-btn-edit" onclick="goToStep(2)"><i class="fa-solid fa-pen-to-square"></i> modifica</button>
+      </div>
+      <div class="row g-2 p-3" id="rv_referente"></div>
+    </div>
+    <div class="aw-form-section d-none" id="rv_sec_team">
+      <div class="aw-section-header d-flex justify-content-between align-items-center">
+        <h4 class="mb-0">Identità squadra</h4>
+        <button type="button" class="aw-btn-edit" onclick="goToStep(2)"><i class="fa-solid fa-pen-to-square"></i> modifica</button>
+      </div>
+      <div class="row g-2 p-3" id="rv_team"></div>
+    </div>
+    <div class="aw-form-section d-none" id="rv_sec_players">
+      <div class="aw-section-header d-flex justify-content-between align-items-center">
+        <h4 class="mb-0">Composizione squadra</h4>
+        <button type="button" class="aw-btn-edit" onclick="goToStep(2)"><i class="fa-solid fa-pen-to-square"></i> modifica</button>
+      </div>
+      <div class="p-3" id="rv_players"></div>
+    </div>
+    <div class="aw-form-section d-none" id="rv_sec_profile">
+      <div class="aw-section-header d-flex justify-content-between align-items-center">
+        <h4 class="mb-0">Profilo partecipante</h4>
+        <button type="button" class="aw-btn-edit" onclick="goToStep(2)"><i class="fa-solid fa-pen-to-square"></i> modifica</button>
+      </div>
+      <div class="row g-2 p-3" id="rv_profile"></div>
+    </div>
+    <div class="aw-form-section d-none" id="rv_sec_social">
+      <div class="aw-section-header d-flex justify-content-between align-items-center">
+        <h4 class="mb-0">Conviviale e trasporti</h4>
+        <button type="button" class="aw-btn-edit" onclick="goToStep(2)"><i class="fa-solid fa-pen-to-square"></i> modifica</button>
+      </div>
+      <div class="row g-2 p-3" id="rv_social"></div>
+    </div>
+    <div class="aw-form-section">
+      <div class="aw-section-header"><h4 class="mb-0">Quote</h4></div>
+      <div class="row g-2 p-3" id="rv_quotes"></div>
+      <div class="d-flex justify-content-between align-items-center px-3 py-3 aw-review-total-bar">
+        <span>totale finale</span>
+        <span id="rv_total_final" class="aw-review-total-value">€ 0.00</span>
+      </div>
+    </div>
+    <div class="d-flex justify-content-end gap-3 mt-4">
+      <button type="button" class="aw-btn-back-form" onclick="goToStep(2)"><i class="fa-solid fa-arrow-left"></i> torna al form</button>
+      <button type="button" class="aw-btn-confirm" id="btn_confirm_send"><i class="fa-solid fa-paper-plane me-2"></i>invia richiesta di iscrizione</button>
+    </div>
+  </div><!-- /section_review -->
+
+</div><!-- /aw-wrapper -->
+
+<!-- LOADER -->
+<div class="aw-loader-overlay" id="loader_overlay">
+  <div class="aw-loader-spinner"></div>
+  <div class="aw-loader-text">Stiamo verificando i tuoi dati…</div>
+</div>
+
+<!-- MESSAGE BOX — successo -->
+<div class="aw-msg-overlay" id="msg_success">
+  <div class="aw-msg-box">
+    <i class="fa-solid fa-circle-check aw-msg-icon aw-msg-ok"></i>
+    <div class="aw-msg-title">Richiesta inviata!</div>
+    <p class="aw-msg-body">Abbiamo ricevuto la tua richiesta di iscrizione.<br>Riceverai a breve una email con il riepilogo e le istruzioni per il pagamento.</p>
+    <button type="button" class="aw-btn-msg-ok" onclick="document.getElementById('msg_success').classList.remove('show')"><i class="fa-solid fa-check me-1"></i> chiudi</button>
+  </div>
+</div>
+
+<!-- MESSAGE BOX — errore -->
+<div class="aw-msg-overlay" id="msg_error">
+  <div class="aw-msg-box">
+    <i class="fa-solid fa-circle-exclamation aw-msg-icon aw-msg-error"></i>
+    <div class="aw-msg-title">Qualcosa non ha funzionato</div>
+    <p class="aw-msg-body">Non è stato possibile inviare la richiesta.<br>Controlla i dati e riprova. Se il problema persiste, contatta l'organizzazione.</p>
+    <button type="button" class="aw-btn-msg-retry" onclick="document.getElementById('msg_error').classList.remove('show')"><i class="fa-solid fa-arrow-left me-1"></i> torna alla compilazione</button>
+  </div>
+</div>
+
+<!-- MESSAGE BOX — errori validazione -->
+<div class="aw-msg-overlay" id="msg_validation">
+  <div class="aw-msg-box">
+    <i class="fa-solid fa-triangle-exclamation aw-msg-icon aw-msg-error"></i>
+    <div class="aw-msg-title">Correggi prima questi punti</div>
+    <div class="aw-msg-body">
+      <ul class="aw-msg-list mb-0" id="validation_summary_list"></ul>
+    </div>
+    <div class="d-flex gap-2 justify-content-center mt-3">
+      <button type="button" class="aw-btn-msg-retry" id="btn_validation_goto">
+        <i class="fa-solid fa-arrow-down me-1"></i> vai al primo errore
+      </button>
+      <button type="button" class="aw-btn-msg-ok" id="btn_validation_close">
+        <i class="fa-solid fa-check me-1"></i> chiudi
+      </button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="<?php echo esc_attr( plugin_dir_url( AW_PLUGIN_FILE ) . 'templates/alientu-26/assets/js/alientu.js' ); ?>"></script>
+</body>
+</html>
